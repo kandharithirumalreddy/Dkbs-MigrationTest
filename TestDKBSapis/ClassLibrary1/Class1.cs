@@ -13,6 +13,19 @@ namespace Microsoft.SDK.SharePointServices.Samples
             ClientContext clientContext = new ClientContext(siteUrl);
             SP.List oList = clientContext.Web.Lists.GetByTitle("Announcements");
 
+            //get partner listitem using this line, but you can use caml query to get many partner items
+
+            //ListItem partnerItem = lstCIs.GetItemById(lv.LookupId);
+
+            // get subsite url
+
+            //if (partnerItem["CISite"] != null)
+            //    {
+            //        FieldUrlValue subSiteUrl = partnerItem["CISite"] as FieldUrlValue;
+            //        using (ClientContext subsiteContext = new ClientContext(subSiteUrl.Url))
+            //        { }
+            //    }
+
             CamlQuery camlQuery = new CamlQuery();
             camlQuery.ViewXml = "<View><Query><Where><Geq><FieldRef Name='ID'/>" +
                 "<Value Type='Number'>10</Value></Geq></Where></Query><RowLimit>100</RowLimit></View>";

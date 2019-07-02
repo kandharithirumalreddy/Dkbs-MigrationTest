@@ -20,7 +20,7 @@ namespace TestDKBSapis
             clientContext.AuthenticationMode = ClientAuthenticationMode.FormsAuthentication;
             clientContext.FormsAuthenticationLoginInfo = new FormsAuthenticationLoginInfo("CRM Automation", "9LEkTny4");
             clientContext.ExecuteQuery();
-           // string contentTypeName = "Bookinger";
+            string contentTypeName = "Bookinger";
             Console.WriteLine(" Successfully Connected");
             List oList = clientContext.Web.Lists.GetByTitle("Bookinger");
             ListItemCollectionPosition itemPosition = null;
@@ -29,7 +29,7 @@ namespace TestDKBSapis
             clientContext.ExecuteQuery();
             foreach (ContentType ct in ctColl)
             {
-               // if (ct.Name == contentTypeName && contentTypeName == "Bookinger")
+                if (ct.Name == contentTypeName && contentTypeName == "Bookinger")
                 {
                     //string query = $@"<View><ViewFields><FieldRef Name='Title'/></ViewFields>       
                     //                      <Query>
@@ -43,10 +43,10 @@ namespace TestDKBSapis
                                                 <Where>
                                                     <And>
                                                         <Geq>
-                                                            <FieldRef Name='ID' /><Value Type='Integer'>1</Value>
+                                                            <FieldRef Name='ID' /><Value Type='Integer'>1000</Value>
                                                         </Geq>
                                                         <Leq>
-                                                            <FieldRef Name='ID' /><Value Type='Integer'>1000</Value>
+                                                            <FieldRef Name='ID' /><Value Type='Integer'>2000</Value>
                                                         </Leq>                                        
                                                     </And>
                                                 </Where>
