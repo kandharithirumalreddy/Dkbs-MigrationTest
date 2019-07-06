@@ -7,6 +7,7 @@ using System.Net;
 using System.Text;
 using System.Threading.Tasks;
 using Microsoft.SharePoint.Client;
+using Microsoft.SDK.SharePointServices.Samples;
 
 namespace TestDKBSapis
 {
@@ -14,7 +15,7 @@ namespace TestDKBSapis
     {
         static void Main(string[] args)
         {
-
+            RetrieveListItems.TestMethod1();
             string siteUrl = "https://bookon.dkbs.dk/";
 
             ClientContext clientContext = new ClientContext(siteUrl);
@@ -40,8 +41,8 @@ namespace TestDKBSapis
                             string contentTypeName = "Bookinger";
                             var query = new CamlQuery()
                             {
-                                
-                                 ViewXml = String.Format("<View Scope='RecursiveAll'><Query><Where><Eq><FieldRef Name='ContentType' /><Value Type='Computed'>{0}</Value></Eq></Where></Query></View>", contentTypeName)
+
+                                ViewXml = String.Format("<View Scope='RecursiveAll'><Query><Where><Eq><FieldRef Name='ContentType' /><Value Type='Computed'>{0}</Value></Eq></Where></Query></View>", contentTypeName)
                                 // ViewXml = String.Format("<View Scope='RecursiveAll'><RowLimit>5000</RowLimit></View>")
 
                             };
