@@ -8,6 +8,7 @@ using System.Text;
 using System.Threading.Tasks;
 using Microsoft.SharePoint.Client;
 using Microsoft.SDK.SharePointServices.Samples;
+using SP = Microsoft.SharePoint.Client;
 
 namespace TestDKBSapis
 {
@@ -15,7 +16,6 @@ namespace TestDKBSapis
     {
         static void Main(string[] args)
         {
-            RetrieveListItems.TestMethod1();
             string siteUrl = "https://bookon.dkbs.dk/";
 
             ClientContext clientContext = new ClientContext(siteUrl);
@@ -24,6 +24,16 @@ namespace TestDKBSapis
             clientContext.ExecuteQuery();
             // string contentTypeName = "Bookinger";
             Console.WriteLine(" Successfully Connected");
+
+            //Connected successfully
+            getListData odata = new getListData();
+
+            //odata.GetPatenerListData(clientContext);
+
+            //odata.getDocumentLib(clientContext);
+
+            odata.getImages(clientContext);
+
             List oList = clientContext.Web.Lists.GetByTitle("Bookinger");
             ListItemCollectionPosition itemPosition = null;
             ContentTypeCollection ctColl = oList.ContentTypes;
@@ -41,20 +51,14 @@ namespace TestDKBSapis
                             string contentTypeName = "Bookinger";
                             var query = new CamlQuery()
                             {
-
                                 ViewXml = String.Format("<View Scope='RecursiveAll'><Query><Where><Eq><FieldRef Name='ContentType' /><Value Type='Computed'>{0}</Value></Eq></Where></Query></View>", contentTypeName)
                                 // ViewXml = String.Format("<View Scope='RecursiveAll'><RowLimit>5000</RowLimit></View>")
-
                             };
-
                             ListItemCollection collListItem = oList.GetItems(query);
-
                             clientContext.Load(collListItem);
-
                             clientContext.ExecuteQuery();
                             itemPosition = collListItem.ListItemCollectionPosition;
                             Console.WriteLine(itemPosition);
-
                             foreach (ListItem oListItem in collListItem)
                             {
                                 Console.WriteLine("ID: {0} \nTitle: {1} ", oListItem.Id, oListItem["Title"]);
@@ -70,6 +74,147 @@ namespace TestDKBSapis
         }
 
     }
+    public class getListData
+    {
+
+        public void getDocumentLib(ClientContext clientContext)
+        {
+            SP.List oListData = clientContext.Web.Lists.GetByTitle("Aftaler & dokumenter");
+            CamlQuery camlQuery = new CamlQuery();
+            camlQuery.ViewXml = "<View Scope='RecursiveAll'><Query></Query></View>";
+            ListItemCollection oListDataItem = oListData.GetItems(camlQuery);
+            clientContext.Load(oListDataItem);
+            clientContext.ExecuteQuery();
+
+            foreach (ListItem oItem in oListDataItem)
+            {
+                Console.WriteLine(oItem["ID"]);
+                Console.WriteLine(oItem["Title"]);
+                Console.WriteLine(((SP.FieldUserValue)(oItem["Author"])).LookupValue);
+                Console.WriteLine(((SP.FieldUserValue)(oItem["Editor"])).LookupValue);
+                Console.WriteLine(oItem["Created"].ToString());
+                Console.WriteLine(oItem["Modified"].ToString());
+                if (oItem["RelatedPartnerType"] != null)
+                {
+                    var childIdField = oItem["RelatedPartnerType"] as FieldLookupValue[];
+
+                    if (childIdField != null)
+                    {
+                        foreach (var lookupValue in childIdField)
+                        {
+                            var childId_Value = lookupValue.LookupValue;
+                            var childId_Id = lookupValue.LookupId;
+
+                            Console.WriteLine("LookupID: " + childId_Id.ToString());
+                            Console.WriteLine("LookupValue: " + childId_Value.ToString());
+                        }
+                    }
+                }
+            }
+        }
+
+        public void GetPatenerListData(ClientContext clientContext)
+        {
+            SP.List oList = clientContext.Web.Lists.GetByTitle("Partnere");
+
+            CamlQuery camlQuery = new CamlQuery();
+            camlQuery.ViewXml = "<View Scope='RecursiveAll'><Query></Query></View>";
+            ListItemCollection collListItem = oList.GetItems(camlQuery);
+
+            clientContext.Load(collListItem);
+
+            clientContext.ExecuteQuery();
+
+            foreach (ListItem oListItem in collListItem)
+            {
+
+                var hyperLink = ((SP.FieldUrlValue)(oListItem["CISite"]));
+                if (hyperLink != null)
+                {
+                    Console.WriteLine("ID: {0} \nTitle: {1} \nSite: {2} \nSiteUrl: {3} ", oListItem.Id, oListItem["Title"], oListItem["CISite"], oListItem["CISiteShortUrl"]);
+                    var hLink = ((SP.FieldUrlValue)(oListItem["CISite"])).Url;
+                    Console.WriteLine(hLink);
+
+
+                    ClientContext Context = new ClientContext(hLink);
+                    Context.AuthenticationMode = ClientAuthenticationMode.FormsAuthentication;
+                    Context.FormsAuthenticationLoginInfo = new FormsAuthenticationLoginInfo("CRM Automation", "9LEkTny4");
+                    Context.ExecuteQuery();
+                    SP.List oListData = Context.Web.Lists.GetByTitle("Kursuspakke");
+
+                    camlQuery.ViewXml = "<View Scope='RecursiveAll'><Query></Query></View>";
+                    ListItemCollection oListDataItem = oListData.GetItems(camlQuery);
+
+                    Context.Load(oListDataItem);
+
+                    Context.ExecuteQuery();
+
+                    foreach (ListItem oItem in oListDataItem)
+                    {
+                        Console.WriteLine("ID: {0} \nTitle: {1}", oItem.Id, oItem["Title"]);
+                    }
+
+                }
+
+            }
+        }
+
+        public void getImages(ClientContext clientContext)
+        {
+            SP.List oList = clientContext.Web.Lists.GetByTitle("Partnere");
+
+            CamlQuery camlQuery = new CamlQuery();
+            camlQuery.ViewXml = "<View Scope='RecursiveAll'><Query></Query></View>";
+            ListItemCollection collListItem = oList.GetItems(camlQuery);
+
+            clientContext.Load(collListItem);
+
+            clientContext.ExecuteQuery();
+
+            foreach (ListItem oListItem in collListItem)
+            {
+
+                var hyperLink = ((SP.FieldUrlValue)(oListItem["CISite"]));
+                if (hyperLink != null)
+                {
+                    Console.WriteLine("ID: {0} \nTitle: {1} \nSite: {2} \nSiteUrl: {3} ", oListItem.Id, oListItem["Title"], oListItem["CISite"], oListItem["CISiteShortUrl"]);
+                    var hLink = ((SP.FieldUrlValue)(oListItem["CISite"])).Url;
+                    Console.WriteLine(hLink);
+
+
+                    ClientContext Context = new ClientContext(hLink);
+                    Context.AuthenticationMode = ClientAuthenticationMode.FormsAuthentication;
+                    Context.FormsAuthenticationLoginInfo = new FormsAuthenticationLoginInfo("CRM Automation", "9LEkTny4");
+                    Context.ExecuteQuery();
+                    SP.List oListData = Context.Web.Lists.GetByTitle("Billeder");
+
+                    camlQuery.ViewXml = "<View Scope='RecursiveAll'><Query></Query></View>";
+                    ListItemCollection oListDataItem = oListData.GetItems(camlQuery);
+
+                    Context.Load(oListDataItem);
+
+                    Context.ExecuteQuery();
+
+                    foreach (ListItem oItem in oListDataItem)
+                    {
+                        Console.WriteLine(oItem["ID"]);
+                        Console.WriteLine(oItem["FileLeafRef"]);
+                        Console.WriteLine(oItem["FileRef"]);
+                        Console.WriteLine(oItem["Title"]);
+                        Console.WriteLine(((SP.FieldUserValue)(oItem["Author"])).LookupValue);
+                        Console.WriteLine(((SP.FieldUserValue)(oItem["Editor"])).LookupValue);
+                        Console.WriteLine(oItem["Created"].ToString());
+                        Console.WriteLine(oItem["Modified"].ToString());
+                        
+                    }
+
+                }
+
+            }
+        }
+    }
 
 }
+
+
 
