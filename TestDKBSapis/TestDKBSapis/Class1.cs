@@ -52,7 +52,9 @@ namespace Microsoft.SDK.SharePointServices.Samples
                     {
                         Console.WriteLine("ID: {0} \nTitle: {1}", oItem.Id, oItem["Title"]);
                     }
+
                 }
+
             }
         }
 
