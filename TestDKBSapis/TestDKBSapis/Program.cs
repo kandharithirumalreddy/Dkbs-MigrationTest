@@ -28,11 +28,21 @@ namespace TestDKBSapis
             //Connected successfully
             getListData odata = new getListData();
 
-            //odata.GetPatenerListData(clientContext);
+            //odata.GetPatenerKursuspakkeListData(clientContext);
 
             //odata.getDocumentLib(clientContext);
 
-            odata.getImages(clientContext);
+            //odata.GetPatenerAktiviteterListData(clientContext);
+
+            //odata.GetPatenerInspirationskategorierListData(clientContext);
+
+            //odata.GetPatenerCenterbeskrivelseListData(clientContext);
+
+            //odata.GetPatenerCentretsListData(clientContext);
+
+            //odata.GetPatenerCentretitalListData(clientContext);
+
+            //odata.getImages(clientContext);
 
             List oList = clientContext.Web.Lists.GetByTitle("Bookinger");
             ListItemCollectionPosition itemPosition = null;
@@ -113,7 +123,7 @@ namespace TestDKBSapis
             }
         }
 
-        public void GetPatenerListData(ClientContext clientContext)
+        public void GetPatenerKursuspakkeListData(ClientContext clientContext)
         {
             SP.List oList = clientContext.Web.Lists.GetByTitle("Partnere");
 
@@ -156,6 +166,180 @@ namespace TestDKBSapis
 
                 }
 
+            }
+        }
+
+        public void GetPatenerAktiviteterListData(ClientContext clientContext)
+        {
+            SP.List oList = clientContext.Web.Lists.GetByTitle("Partnere");
+
+            CamlQuery camlQuery = new CamlQuery();
+            camlQuery.ViewXml = "<View Scope='RecursiveAll'><Query></Query></View>";
+            ListItemCollection collListItem = oList.GetItems(camlQuery);
+
+            clientContext.Load(collListItem);
+
+            clientContext.ExecuteQuery();
+
+            foreach (ListItem oListItem in collListItem)
+            {
+
+                var hyperLink = ((SP.FieldUrlValue)(oListItem["CISite"]));
+                if (hyperLink != null)
+                {
+                    Console.WriteLine("ID: {0} \nTitle: {1} \nSite: {2} \nSiteUrl: {3} ", oListItem.Id, oListItem["Title"], oListItem["CISite"], oListItem["CISiteShortUrl"]);
+                    var hLink = ((SP.FieldUrlValue)(oListItem["CISite"])).Url;
+                    Console.WriteLine(hLink);
+
+
+                    ClientContext Context = new ClientContext(hLink);
+                    Context.AuthenticationMode = ClientAuthenticationMode.FormsAuthentication;
+                    Context.FormsAuthenticationLoginInfo = new FormsAuthenticationLoginInfo("CRM Automation", "9LEkTny4");
+                    Context.ExecuteQuery();
+                    SP.List oListData = Context.Web.Lists.GetByTitle("Aktiviteter");
+
+                    camlQuery.ViewXml = "<View Scope='RecursiveAll'><Query></Query></View>";
+                    ListItemCollection oListDataItem = oListData.GetItems(camlQuery);
+
+                    Context.Load(oListDataItem);
+
+                    Context.ExecuteQuery();
+
+                    foreach (ListItem oItem in oListDataItem)
+                    {
+                        Console.WriteLine("ID: {0} \nHeadline: {1}", oItem["ID"], oItem["Headline"]);
+                    }
+
+                }
+
+            }
+        }
+
+        public void GetPatenerInspirationskategorierListData(ClientContext clientContext)
+        {
+            SP.List oList = clientContext.Web.Lists.GetByTitle("Partnere");
+
+            CamlQuery camlQuery = new CamlQuery();
+            camlQuery.ViewXml = "<View Scope='RecursiveAll'><Query></Query></View>";
+            ListItemCollection collListItem = oList.GetItems(camlQuery);
+
+            clientContext.Load(collListItem);
+
+            clientContext.ExecuteQuery();
+
+            foreach (ListItem oListItem in collListItem)
+            {
+
+                var hyperLink = ((SP.FieldUrlValue)(oListItem["CISite"]));
+                if (hyperLink != null)
+                {
+                    Console.WriteLine("ID: {0} \nTitle: {1} \nSite: {2} \nSiteUrl: {3} ", oListItem.Id, oListItem["Title"], oListItem["CISite"], oListItem["CISiteShortUrl"]);
+                    var hLink = ((SP.FieldUrlValue)(oListItem["CISite"])).Url;
+                    Console.WriteLine(hLink);
+
+
+                    ClientContext Context = new ClientContext(hLink);
+                    Context.AuthenticationMode = ClientAuthenticationMode.FormsAuthentication;
+                    Context.FormsAuthenticationLoginInfo = new FormsAuthenticationLoginInfo("CRM Automation", "9LEkTny4");
+                    Context.ExecuteQuery();
+                    SP.List oListData = Context.Web.Lists.GetByTitle("Inspirationskategorier (EN)");
+
+                    camlQuery.ViewXml = "<View Scope='RecursiveAll'><Query></Query></View>";
+                    ListItemCollection oListDataItem = oListData.GetItems(camlQuery);
+
+                    Context.Load(oListDataItem);
+
+                    Context.ExecuteQuery();
+
+                    foreach (ListItem oItem in oListDataItem)
+                    {
+                        Console.WriteLine("ID: {0} \nHeadline: {1}", oItem["ID"], oItem["Headline"]);
+                    }
+
+                }
+
+            }
+        }
+
+        public void GetPatenerCenterbeskrivelseListData(ClientContext clientContext)
+        {
+            SP.List oList = clientContext.Web.Lists.GetByTitle("Partnere");
+
+            CamlQuery camlQuery = new CamlQuery();
+            camlQuery.ViewXml = "<View Scope='RecursiveAll'><Query></Query></View>";
+            ListItemCollection collListItem = oList.GetItems(camlQuery);
+
+            clientContext.Load(collListItem);
+
+            clientContext.ExecuteQuery();
+
+            foreach (ListItem oListItem in collListItem)
+            {
+
+                var hyperLink = ((SP.FieldUrlValue)(oListItem["CISite"]));
+                if (hyperLink != null)
+                {
+                    Console.WriteLine("ID: {0} \nTitle: {1} \nSite: {2} \nSiteUrl: {3} ", oListItem.Id, oListItem["Title"], oListItem["CISite"], oListItem["CISiteShortUrl"]);
+                    var hLink = ((SP.FieldUrlValue)(oListItem["CISite"])).Url;
+                    Console.WriteLine(hLink);
+
+
+                    ClientContext Context = new ClientContext(hLink);
+                    Context.AuthenticationMode = ClientAuthenticationMode.FormsAuthentication;
+                    Context.FormsAuthenticationLoginInfo = new FormsAuthenticationLoginInfo("CRM Automation", "9LEkTny4");
+                    Context.ExecuteQuery();
+                    SP.List oListData = Context.Web.Lists.GetByTitle("Centerbeskrivelse");
+
+                    camlQuery.ViewXml = "<View Scope='RecursiveAll'><Query></Query></View>";
+                    ListItemCollection oListDataItem = oListData.GetItems(camlQuery);
+
+                    Context.Load(oListDataItem);
+
+                    Context.ExecuteQuery();
+
+                    foreach (ListItem oItem in oListDataItem)
+                    {
+                        Console.WriteLine("ID: {0} \nDescription: {1}", oItem["ID"], oItem["Description"]);
+                    }
+
+                }
+
+            }
+        }
+
+        public void GetPatenerCentretsListData(ClientContext clientContext)
+        {
+            
+                    SP.List oListData = clientContext.Web.Lists.GetByTitle("Centrets lokaler i tal");
+                    CamlQuery camlQuery = new CamlQuery();
+                    camlQuery.ViewXml = "<View Scope='RecursiveAll'><Query></Query></View>";
+                    ListItemCollection oListDataItem = oListData.GetItems(camlQuery);
+
+                    clientContext.Load(oListDataItem);
+
+                    clientContext.ExecuteQuery();
+
+                    foreach (ListItem oItem in oListDataItem)
+                    {
+                        Console.WriteLine("ID: {0} \nTitle: {1}", oItem["ID"], oItem["Title"]);
+                    }
+        }
+
+        public void GetPatenerCentretitalListData(ClientContext clientContext)
+        {
+
+            SP.List oListData = clientContext.Web.Lists.GetByTitle("Centret_i_tal");
+            CamlQuery camlQuery = new CamlQuery();
+            camlQuery.ViewXml = "<View Scope='RecursiveAll'><Query></Query></View>";
+            ListItemCollection oListDataItem = oListData.GetItems(camlQuery);
+
+            clientContext.Load(oListDataItem);
+
+            clientContext.ExecuteQuery();
+
+            foreach (ListItem oItem in oListDataItem)
+            {
+                Console.WriteLine("ID: {0} \nTitle: {1}", oItem["ID"], oItem["Title"]);
             }
         }
 
@@ -205,7 +389,7 @@ namespace TestDKBSapis
                         Console.WriteLine(((SP.FieldUserValue)(oItem["Editor"])).LookupValue);
                         Console.WriteLine(oItem["Created"].ToString());
                         Console.WriteLine(oItem["Modified"].ToString());
-                        
+
                     }
 
                 }
