@@ -28,6 +28,8 @@ namespace TestDKBSapis
             //Connected successfully
             getListData odata = new getListData();
 
+            //odata.getBookingerListData(clientContext);
+
             //odata.GetPatenerKursuspakkeListData(clientContext);
 
             //odata.getDocumentLib(clientContext);
@@ -44,6 +46,15 @@ namespace TestDKBSapis
 
             //odata.getImages(clientContext);
 
+            
+        }
+
+    }
+    public class getListData
+    {
+
+        public void getBookingerListData(ClientContext clientContext)
+        {
             List oList = clientContext.Web.Lists.GetByTitle("Bookinger");
             ListItemCollectionPosition itemPosition = null;
             ContentTypeCollection ctColl = oList.ContentTypes;
@@ -82,10 +93,6 @@ namespace TestDKBSapis
                 }
             }
         }
-
-    }
-    public class getListData
-    {
 
         public void getDocumentLib(ClientContext clientContext)
         {
@@ -161,7 +168,9 @@ namespace TestDKBSapis
 
                     foreach (ListItem oItem in oListDataItem)
                     {
-                        Console.WriteLine("ID: {0} \nTitle: {1}", oItem.Id, oItem["Title"]);
+                        Console.WriteLine("ID: {0} \nTitle: {1} \nKursuspakkeUK:{2} \nOffered: {3} \nPrice:{4}", oItem.Id, oItem["Title"], oItem["KursuspakkeUK"], oItem["Offered"], oItem["Price"]);
+                        Console.WriteLine("IncludedInPriceAdditional: {0} \nIncludedInPriceDefault:{1} \nOptionalPurchases: {2} \nPricePerYear:{3}", oItem["IncludedInPriceAdditional"], oItem["IncludedInPriceDefault"], oItem["OptionalPurchases"], oItem["PricePerYear"]);
+
                     }
 
                 }
@@ -299,7 +308,10 @@ namespace TestDKBSapis
 
                     foreach (ListItem oItem in oListDataItem)
                     {
-                        Console.WriteLine("ID: {0} \nDescription: {1}", oItem["ID"], oItem["Description"]);
+                        Console.WriteLine("ID: {0} \nDescription: {1} \nLanguageType:{2} \nRooms:{3}", oItem["ID"], oItem["Description"], oItem["LanguageType"], oItem["Rooms"]);
+                        Console.WriteLine("TraficConnections: {0} \nCapacity: {1} \nFacilities:{2} \nActivities:{3}", oItem["TraficConnections"], oItem["Capacity"], oItem["Facilities"], oItem["Activities"]);
+                        Console.WriteLine("TextOffer: {0} \nFurtherIncluded: {1}", oItem["TextOffer"], oItem["FurtherIncluded"]);
+
                     }
 
                 }
