@@ -46,13 +46,28 @@ namespace TestDKBSapis
 
             //odata.getImages(clientContext);
 
-            
+            //odata.GetPatenerDiskussionsforumListData(clientContext);
+
+            // odata.GetPatenerNyhederListData(clientContext);
+
+            //odata.GetPatenerProceduresListData(clientContext);
+
+            //odata.GetPatenerProvisionListData(clientContext);
+
+            //odata.GetPatenerServicekatalogListData(clientContext);
+
+            //odata.GetPatenerServicerequestcommunicationsListData(clientContext);
+
+            //odata.GetPatenerServicerequestconversationitemsListData(clientContext);
+
+            odata.GetPatenerServicerequestnotesListData(clientContext);
+
         }
 
     }
     public class getListData
     {
-
+        //Bookinger
         public void getBookingerListData(ClientContext clientContext)
         {
             List oList = clientContext.Web.Lists.GetByTitle("Bookinger");
@@ -94,6 +109,7 @@ namespace TestDKBSapis
             }
         }
 
+        //Aftaler & dokumenter
         public void getDocumentLib(ClientContext clientContext)
         {
             SP.List oListData = clientContext.Web.Lists.GetByTitle("Aftaler & dokumenter");
@@ -130,6 +146,7 @@ namespace TestDKBSapis
             }
         }
 
+        //Kursuspakke
         public void GetPatenerKursuspakkeListData(ClientContext clientContext)
         {
             SP.List oList = clientContext.Web.Lists.GetByTitle("Partnere");
@@ -178,6 +195,7 @@ namespace TestDKBSapis
             }
         }
 
+        //Aktiviteter
         public void GetPatenerAktiviteterListData(ClientContext clientContext)
         {
             SP.List oList = clientContext.Web.Lists.GetByTitle("Partnere");
@@ -224,6 +242,7 @@ namespace TestDKBSapis
             }
         }
 
+        //Inspirationskategorier(EN)
         public void GetPatenerInspirationskategorierListData(ClientContext clientContext)
         {
             SP.List oList = clientContext.Web.Lists.GetByTitle("Partnere");
@@ -270,6 +289,7 @@ namespace TestDKBSapis
             }
         }
 
+        //Centerbeskrivelse
         public void GetPatenerCenterbeskrivelseListData(ClientContext clientContext)
         {
             SP.List oList = clientContext.Web.Lists.GetByTitle("Partnere");
@@ -319,6 +339,7 @@ namespace TestDKBSapis
             }
         }
 
+        //Centrets lokaler i tal
         public void GetPatenerCentretsListData(ClientContext clientContext)
         {
             
@@ -337,6 +358,7 @@ namespace TestDKBSapis
                     }
         }
 
+        //Centret_i_tal
         public void GetPatenerCentretitalListData(ClientContext clientContext)
         {
 
@@ -355,6 +377,7 @@ namespace TestDKBSapis
             }
         }
 
+        //Billeder
         public void getImages(ClientContext clientContext)
         {
             SP.List oList = clientContext.Web.Lists.GetByTitle("Partnere");
@@ -408,6 +431,159 @@ namespace TestDKBSapis
 
             }
         }
+
+        //Diskussionsforum
+        public void GetPatenerDiskussionsforumListData(ClientContext clientContext)
+        {
+
+            SP.List oListData = clientContext.Web.Lists.GetByTitle("Diskussionsforum");
+            CamlQuery camlQuery = new CamlQuery();
+            camlQuery.ViewXml = "<View Scope='RecursiveAll'><Query></Query></View>";
+            ListItemCollection oListDataItem = oListData.GetItems(camlQuery);
+
+            clientContext.Load(oListDataItem);
+
+            clientContext.ExecuteQuery();
+
+            foreach (ListItem oItem in oListDataItem)
+            {
+                Console.WriteLine("ID: {0} \nTitle: {1}", oItem["ID"], oItem["Title"]);
+            }
+        }
+
+        //Nyheder
+        public void GetPatenerNyhederListData(ClientContext clientContext)
+        {
+
+            SP.List oListData = clientContext.Web.Lists.GetByTitle("Nyheder");
+            CamlQuery camlQuery = new CamlQuery();
+            camlQuery.ViewXml = "<View Scope='RecursiveAll'><Query></Query></View>";
+            ListItemCollection oListDataItem = oListData.GetItems(camlQuery);
+
+            clientContext.Load(oListDataItem);
+
+            clientContext.ExecuteQuery();
+
+            foreach (ListItem oItem in oListDataItem)
+            {
+                Console.WriteLine("ID: {0} \nTitle: {1}", oItem["ID"], oItem["Title"]);
+            }
+        }
+
+        //Procedures
+        public void GetPatenerProceduresListData(ClientContext clientContext)
+        {
+
+            SP.List oListData = clientContext.Web.Lists.GetByTitle("Procedures");
+            CamlQuery camlQuery = new CamlQuery();
+            camlQuery.ViewXml = "<View Scope='RecursiveAll'><Query></Query></View>";
+            ListItemCollection oListDataItem = oListData.GetItems(camlQuery);
+
+            clientContext.Load(oListDataItem);
+
+            clientContext.ExecuteQuery();
+
+            foreach (ListItem oItem in oListDataItem)
+            {
+                Console.WriteLine("ID: {0} \nTitle: {1}", oItem["ID"], oItem["Title"]);
+            }
+        }
+
+        //Provision
+        public void GetPatenerProvisionListData(ClientContext clientContext)
+        {
+
+            SP.List oListData = clientContext.Web.Lists.GetByTitle("Provision");
+            CamlQuery camlQuery = new CamlQuery();
+            camlQuery.ViewXml = "<View Scope='RecursiveAll'><Query></Query></View>";
+            ListItemCollection oListDataItem = oListData.GetItems(camlQuery);
+
+            clientContext.Load(oListDataItem);
+
+            clientContext.ExecuteQuery();
+
+            foreach (ListItem oItem in oListDataItem)
+            {
+                Console.WriteLine("ID: {0} \nTitle: {1}", oItem["ID"], oItem["Title"]);
+            }
+        }
+
+        //Service katalog
+        public void GetPatenerServicekatalogListData(ClientContext clientContext)
+        {
+
+            SP.List oListData = clientContext.Web.Lists.GetByTitle("Service katalog");
+            CamlQuery camlQuery = new CamlQuery();
+            camlQuery.ViewXml = "<View Scope='RecursiveAll'><Query></Query></View>";
+            ListItemCollection oListDataItem = oListData.GetItems(camlQuery);
+
+            clientContext.Load(oListDataItem);
+
+            clientContext.ExecuteQuery();
+
+            foreach (ListItem oItem in oListDataItem)
+            {
+                Console.WriteLine("ID: {0} \nTitle: {1}", oItem["ID"], oItem["Title"]);
+            }
+        }
+        //Service request communications
+        public void GetPatenerServicerequestcommunicationsListData(ClientContext clientContext)
+        {
+
+            SP.List oListData = clientContext.Web.Lists.GetByTitle("Service request communications");
+            CamlQuery camlQuery = new CamlQuery();
+            camlQuery.ViewXml = "<View Scope='RecursiveAll'><Query></Query></View>";
+            ListItemCollection oListDataItem = oListData.GetItems(camlQuery);
+
+            clientContext.Load(oListDataItem);
+
+            clientContext.ExecuteQuery();
+
+            foreach (ListItem oItem in oListDataItem)
+            {
+                Console.WriteLine("ID: {0} \nTitle: {1}", oItem["ID"], oItem["Title"]);
+            }
+        }
+
+        //Service request conversation items
+        public void GetPatenerServicerequestconversationitemsListData(ClientContext clientContext)
+        {
+
+            SP.List oListData = clientContext.Web.Lists.GetByTitle("Service request conversation items");
+            CamlQuery camlQuery = new CamlQuery();
+            camlQuery.ViewXml = "<View Scope='RecursiveAll'><Query></Query></View>";
+            ListItemCollection oListDataItem = oListData.GetItems(camlQuery);
+
+            clientContext.Load(oListDataItem);
+
+            clientContext.ExecuteQuery();
+
+            foreach (ListItem oItem in oListDataItem)
+            {
+                Console.WriteLine("ID: {0} \nTitle: {1}", oItem["ID"], oItem["Title"]);
+            }
+        }
+
+        //Service request notes		
+        public void GetPatenerServicerequestnotesListData(ClientContext clientContext)
+        {
+
+            SP.List oListData = clientContext.Web.Lists.GetByTitle("Service request notes");
+            CamlQuery camlQuery = new CamlQuery();
+            camlQuery.ViewXml = "<View Scope='RecursiveAll'><Query></Query></View>";
+            ListItemCollection oListDataItem = oListData.GetItems(camlQuery);
+
+            clientContext.Load(oListDataItem);
+
+            clientContext.ExecuteQuery();
+
+            foreach (ListItem oItem in oListDataItem)
+            {
+                Console.WriteLine("ID: {0} \nTitle: {1}", oItem["ID"], oItem["Title"]);
+            }
+        }
+
+
     }
 
 }
