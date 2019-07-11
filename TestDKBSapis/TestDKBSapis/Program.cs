@@ -48,7 +48,7 @@ namespace TestDKBSapis
 
             //odata.GetPatenerDiskussionsforumListData(clientContext);
 
-            // odata.GetPatenerNyhederListData(clientContext);
+            //odata.GetPatenerNyhederListData(clientContext);
 
             //odata.GetPatenerProceduresListData(clientContext);
 
@@ -56,11 +56,11 @@ namespace TestDKBSapis
 
             //odata.GetPatenerServicekatalogListData(clientContext);
 
-            //odata.GetPatenerServicerequestcommunicationsListData(clientContext);
+            odata.GetPatenerServicerequestcommunicationsListData(clientContext);
 
             //odata.GetPatenerServicerequestconversationitemsListData(clientContext);
 
-            odata.GetPatenerServicerequestnotesListData(clientContext);
+            //odata.GetPatenerServicerequestnotesListData(clientContext);
 
         }
 
@@ -84,7 +84,7 @@ namespace TestDKBSapis
                     try
                     {
                         {
-                            string contentTypeName = "Bookinger";
+                            string contentTypeName = ct.Name;
                             var query = new CamlQuery()
                             {
                                 ViewXml = String.Format("<View Scope='RecursiveAll'><Query><Where><Eq><FieldRef Name='ContentType' /><Value Type='Computed'>{0}</Value></Eq></Where></Query></View>", contentTypeName)
@@ -109,7 +109,7 @@ namespace TestDKBSapis
             }
         }
 
-        //Aftaler & dokumenter
+        //Aftaler & dokumenter --Done
         public void getDocumentLib(ClientContext clientContext)
         {
             SP.List oListData = clientContext.Web.Lists.GetByTitle("Aftaler & dokumenter");
@@ -127,6 +127,8 @@ namespace TestDKBSapis
                 Console.WriteLine(((SP.FieldUserValue)(oItem["Editor"])).LookupValue);
                 Console.WriteLine(oItem["Created"].ToString());
                 Console.WriteLine(oItem["Modified"].ToString());
+                Console.WriteLine(oItem["URL"]);
+                Console.WriteLine(oItem["ContentTypeId"].ToString());
                 if (oItem["RelatedPartnerType"] != null)
                 {
                     var childIdField = oItem["RelatedPartnerType"] as FieldLookupValue[];
@@ -339,26 +341,37 @@ namespace TestDKBSapis
             }
         }
 
-        //Centrets lokaler i tal
+        //Centrets lokaler i tal --Done
         public void GetPatenerCentretsListData(ClientContext clientContext)
         {
-            
-                    SP.List oListData = clientContext.Web.Lists.GetByTitle("Centrets lokaler i tal");
-                    CamlQuery camlQuery = new CamlQuery();
-                    camlQuery.ViewXml = "<View Scope='RecursiveAll'><Query></Query></View>";
-                    ListItemCollection oListDataItem = oListData.GetItems(camlQuery);
 
-                    clientContext.Load(oListDataItem);
+            SP.List oListData = clientContext.Web.Lists.GetByTitle("Centrets lokaler i tal");
+            CamlQuery camlQuery = new CamlQuery();
+            camlQuery.ViewXml = "<View Scope='RecursiveAll'><Query></Query></View>";
+            ListItemCollection oListDataItem = oListData.GetItems(camlQuery);
 
-                    clientContext.ExecuteQuery();
+            clientContext.Load(oListDataItem);
 
-                    foreach (ListItem oItem in oListDataItem)
-                    {
-                        Console.WriteLine("ID: {0} \nTitle: {1}", oItem["ID"], oItem["Title"]);
-                    }
+            clientContext.ExecuteQuery();
+
+            foreach (ListItem oItem in oListDataItem)
+            {
+                Console.WriteLine("ID: {0} \nTitle: {1}", oItem["ID"], oItem["Title"]);
+                Console.WriteLine(((SP.FieldUserValue)(oItem["Author"])).LookupValue);
+                Console.WriteLine(((SP.FieldUserValue)(oItem["Editor"])).LookupValue);
+                Console.WriteLine(oItem["Created"].ToString());
+                Console.WriteLine(oItem["Modified"].ToString());
+                Console.WriteLine(oItem["MaxPeopleAtTable"]);
+                Console.WriteLine(oItem["MaxPeopleAtUTable"]);
+                Console.WriteLine(oItem["MaxPeopleAtSchoolBoard"]);
+                Console.WriteLine(oItem["MaxPeopleByIsland"]);
+                Console.WriteLine(oItem["MaxPeopleInOneRoom"]);
+                Console.WriteLine(oItem["DivideRoom"]);
+                Console.WriteLine(oItem["Remarks"]);
+            }
         }
 
-        //Centret_i_tal
+        //Centret_i_tal --Done
         public void GetPatenerCentretitalListData(ClientContext clientContext)
         {
 
@@ -374,6 +387,61 @@ namespace TestDKBSapis
             foreach (ListItem oItem in oListDataItem)
             {
                 Console.WriteLine("ID: {0} \nTitle: {1}", oItem["ID"], oItem["Title"]);
+                Console.WriteLine(((SP.FieldUserValue)(oItem["Author"])).LookupValue);
+                Console.WriteLine(((SP.FieldUserValue)(oItem["Editor"])).LookupValue);
+                Console.WriteLine(oItem["Created"].ToString());
+                Console.WriteLine(oItem["Modified"].ToString());
+
+                Console.WriteLine(oItem["TotalNumberOfRooms"]);
+                Console.WriteLine(oItem["SingleRooms"]);
+                Console.WriteLine(oItem["DoubleRooms"]);
+                Console.WriteLine(oItem["Suite"]);
+                Console.WriteLine(oItem["PrivateRoom"]);
+
+                Console.WriteLine(oItem["HandicapRooms"]);
+                Console.WriteLine(oItem["DistanceToAdditionalAccomodation"]);
+                Console.WriteLine(oItem["Plenum"]);
+                Console.WriteLine(oItem["TeamRoom"]);
+                Console.WriteLine(oItem["DistanceToAirport"]);
+
+                Console.WriteLine(oItem["DistanceToTrainStation"]);
+                Console.WriteLine(oItem["DistanceToBusStop"]);
+                Console.WriteLine(oItem["DistanceToMotorway"]);
+                Console.WriteLine(oItem["NumberOfFreeParkingSpace"]);
+                Console.WriteLine(oItem["DistanceToTheFreeParking"]);
+
+                Console.WriteLine(oItem["NumberOfPaidParkingSpace"]);
+                Console.WriteLine(oItem["DistanceToThePaidParking"]);
+                Console.WriteLine(oItem["MaxDiners"]);
+                Console.WriteLine(oItem["MaximumSeatsInAuditorium"]);
+                Console.WriteLine(oItem["GreenArea"]);
+                Console.WriteLine(oItem["AgreementForEmployees"]);
+                Console.WriteLine(oItem["HandicapFriendly"]);
+                Console.WriteLine(oItem["StateAgreement"]);
+                Console.WriteLine(oItem["Bar"]);
+                Console.WriteLine(oItem["Lounge"]);
+
+                Console.WriteLine(oItem["NumberOfPaidParkingSpace"]);
+                Console.WriteLine(oItem["Spa"]);
+                Console.WriteLine(oItem["Golf"]);
+                Console.WriteLine(oItem["Pool"]);
+                Console.WriteLine(oItem["AirCon"]);
+                Console.WriteLine(oItem["FitnessRoom"]);
+                Console.WriteLine(oItem["CookingSchool"]);
+                Console.WriteLine(oItem["Casino"]);
+                Console.WriteLine(oItem["Lounge"]);
+
+                Console.WriteLine(oItem["AreaRestaurant"]);
+                Console.WriteLine(oItem["EnvironmentalCertificate"]);
+                Console.WriteLine(oItem["MinimumAttendees"]);
+                Console.WriteLine(oItem["MaximumTableSeats"]);
+                Console.WriteLine(oItem["MaximumAccommodations"]);
+                Console.WriteLine(oItem["MaximumSeats"]);
+                Console.WriteLine(oItem["DinningArea"]);
+                Console.WriteLine(oItem["NumberOfRooms"]);
+
+
+
             }
         }
 
@@ -432,7 +500,7 @@ namespace TestDKBSapis
             }
         }
 
-        //Diskussionsforum
+        //Diskussionsforum --Done
         public void GetPatenerDiskussionsforumListData(ClientContext clientContext)
         {
 
@@ -448,10 +516,69 @@ namespace TestDKBSapis
             foreach (ListItem oItem in oListDataItem)
             {
                 Console.WriteLine("ID: {0} \nTitle: {1}", oItem["ID"], oItem["Title"]);
+                Console.WriteLine(((SP.FieldUserValue)(oItem["Author"])).LookupValue);
+                Console.WriteLine(((SP.FieldUserValue)(oItem["Editor"])).LookupValue);
+                Console.WriteLine(oItem["Created"].ToString());
+                Console.WriteLine(oItem["Modified"].ToString());
+                Console.WriteLine(oItem["Body"]);
+                Console.WriteLine(oItem["IsQuestion"]);
+                Console.WriteLine(oItem["ParentItemEditor"]);
+                Console.WriteLine(oItem["LastReplyBy"]);
+                if (oItem["MailGroups"]!=null)
+                {
+                    Console.WriteLine(oItem["MailGroups"]);
+                    var childIdField = oItem["MailGroups"] as FieldLookupValue[];
+
+                    if (childIdField != null)
+                    {
+                        foreach (var lookupValue in childIdField)
+                        {
+                            var childId_Value = lookupValue.LookupValue;
+                            var childId_Id = lookupValue.LookupId;
+
+                            Console.WriteLine("LookupID: " + childId_Id.ToString());
+                            Console.WriteLine("LookupValue: " + childId_Value.ToString());
+                        }
+                    }
+                }
+                if (oItem["RelatedCIs"] != null)
+                {
+                    Console.WriteLine(oItem["RelatedCIs"]);
+                    var childIdField = oItem["RelatedCIs"] as FieldLookupValue[];
+
+                    if (childIdField != null)
+                    {
+                        foreach (var lookupValue in childIdField)
+                        {
+                            var childId_Value = lookupValue.LookupValue;
+                            var childId_Id = lookupValue.LookupId;
+
+                            Console.WriteLine("LookupID: " + childId_Id.ToString());
+                            Console.WriteLine("LookupValue: " + childId_Value.ToString());
+                        }
+                    }
+                }
+                if (oItem["RelatedPartnerType"] != null)
+                {
+                    Console.WriteLine(oItem["RelatedPartnerType"]);
+                    var childIdField = oItem["RelatedPartnerType"] as FieldLookupValue[];
+
+                    if (childIdField != null)
+                    {
+                        foreach (var lookupValue in childIdField)
+                        {
+                            var childId_Value = lookupValue.LookupValue;
+                            var childId_Id = lookupValue.LookupId;
+
+                            Console.WriteLine("LookupID: " + childId_Id.ToString());
+                            Console.WriteLine("LookupValue: " + childId_Value.ToString());
+                        }
+                    }
+                }
             }
         }
 
-        //Nyheder
+        //Nyheder --Done
         public void GetPatenerNyhederListData(ClientContext clientContext)
         {
 
@@ -467,6 +594,49 @@ namespace TestDKBSapis
             foreach (ListItem oItem in oListDataItem)
             {
                 Console.WriteLine("ID: {0} \nTitle: {1}", oItem["ID"], oItem["Title"]);
+                Console.WriteLine(((SP.FieldUserValue)(oItem["Author"])).LookupValue);
+                Console.WriteLine(((SP.FieldUserValue)(oItem["Editor"])).LookupValue);
+                Console.WriteLine(oItem["Created"].ToString());
+                Console.WriteLine(oItem["Modified"].ToString());
+                Console.WriteLine(oItem["PublishAnnouncement"]);
+                Console.WriteLine(oItem["ExpirationDate"]);
+                Console.WriteLine(oItem["Publish"]);
+                Console.WriteLine(oItem["Public"]);
+                Console.WriteLine(oItem["DescriptionRichText"]);
+                if (oItem["RelatedCIID"] != null)
+                {
+                    Console.WriteLine(oItem["RelatedCIID"]);
+                    var childIdField = oItem["RelatedCIID"] as FieldLookupValue[];
+
+                    if (childIdField != null)
+                    {
+                        foreach (var lookupValue in childIdField)
+                        {
+                            var childId_Value = lookupValue.LookupValue;
+                            var childId_Id = lookupValue.LookupId;
+
+                            Console.WriteLine("LookupID: " + childId_Id.ToString());
+                            Console.WriteLine("LookupValue: " + childId_Value.ToString());
+                        }
+                    }
+                }
+                if (oItem["AnnounceOnlyTo"] != null)
+                {
+                    Console.WriteLine(oItem["AnnounceOnlyTo"]);
+                    var childIdField = oItem["AnnounceOnlyTo"] as FieldLookupValue[];
+
+                    if (childIdField != null)
+                    {
+                        foreach (var lookupValue in childIdField)
+                        {
+                            var childId_Value = lookupValue.LookupValue;
+                            var childId_Id = lookupValue.LookupId;
+
+                            Console.WriteLine("LookupID: " + childId_Id.ToString());
+                            Console.WriteLine("LookupValue: " + childId_Value.ToString());
+                        }
+                    }
+                }
             }
         }
 
@@ -508,7 +678,7 @@ namespace TestDKBSapis
             }
         }
 
-        //Service katalog
+        //Service katalog --Done
         public void GetPatenerServicekatalogListData(ClientContext clientContext)
         {
 
@@ -524,9 +694,37 @@ namespace TestDKBSapis
             foreach (ListItem oItem in oListDataItem)
             {
                 Console.WriteLine("ID: {0} \nTitle: {1}", oItem["ID"], oItem["Title"]);
+                Console.WriteLine(((SP.FieldUserValue)(oItem["Author"])).LookupValue);
+                Console.WriteLine(((SP.FieldUserValue)(oItem["Editor"])).LookupValue);
+                Console.WriteLine(oItem["Created"].ToString());
+                Console.WriteLine(oItem["Modified"].ToString());
+                Console.WriteLine(oItem["KursuspakkeUK"]);
+                Console.WriteLine(oItem["Offered"]);
+                Console.WriteLine(oItem["Price"]);
+                Console.WriteLine(oItem["KursuspakkeID"]);
+                Console.WriteLine(oItem["IncludedInPriceDefault"]);
+                Console.WriteLine(oItem["IncludedInPriceAdditional"]);
+                Console.WriteLine(oItem["OptionalPurchases"]);
+                if (oItem["KursuspakkeTypen"] != null)
+                {
+                    Console.WriteLine(oItem["KursuspakkeTypen"]);
+                    var childIdField = oItem["KursuspakkeTypen"] as FieldLookupValue[];
+
+                    if (childIdField != null)
+                    {
+                        foreach (var lookupValue in childIdField)
+                        {
+                            var childId_Value = lookupValue.LookupValue;
+                            var childId_Id = lookupValue.LookupId;
+
+                            Console.WriteLine("LookupID: " + childId_Id.ToString());
+                            Console.WriteLine("LookupValue: " + childId_Value.ToString());
+                        }
+                    }
+                }
             }
         }
-        //Service request communications
+        //Service request communications --Done
         public void GetPatenerServicerequestcommunicationsListData(ClientContext clientContext)
         {
 
@@ -542,6 +740,50 @@ namespace TestDKBSapis
             foreach (ListItem oItem in oListDataItem)
             {
                 Console.WriteLine("ID: {0} \nTitle: {1}", oItem["ID"], oItem["Title"]);
+                Console.WriteLine(((SP.FieldUserValue)(oItem["Author"])).LookupValue);
+                Console.WriteLine(((SP.FieldUserValue)(oItem["Editor"])).LookupValue);
+                Console.WriteLine(oItem["Created"].ToString());
+                Console.WriteLine(oItem["Modified"].ToString());
+                Console.WriteLine(oItem["Communications"]);
+                Console.WriteLine(oItem["FromMyIT"]);
+                Console.WriteLine(oItem["Created"]);
+                Console.WriteLine(oItem["CopyToCloseRemark"]);
+                Console.WriteLine(oItem["IsPartnerSideCommunication"]);
+                Console.WriteLine(oItem["ProcedureInfoCommunication"]);
+                if (oItem["ServiceRequestID"] != null)
+                {
+                    Console.WriteLine(oItem["ServiceRequestID"]);
+                    var childIdField = oItem["ServiceRequestID"] as FieldLookupValue[];
+
+                    if (childIdField != null)
+                    {
+                        foreach (var lookupValue in childIdField)
+                        {
+                            var childId_Value = lookupValue.LookupValue;
+                            var childId_Id = lookupValue.LookupId;
+
+                            Console.WriteLine("LookupID: " + childId_Id.ToString());
+                            Console.WriteLine("LookupValue: " + childId_Value.ToString());
+                        }
+                    }
+                }
+                if (oItem["ITProcedureID"] != null)
+                {
+                    Console.WriteLine(oItem["ITProcedureID"]);
+                    var childIdField = oItem["ITProcedureID"] as FieldLookupValue[];
+
+                    if (childIdField != null)
+                    {
+                        foreach (var lookupValue in childIdField)
+                        {
+                            var childId_Value = lookupValue.LookupValue;
+                            var childId_Id = lookupValue.LookupId;
+
+                            Console.WriteLine("LookupID: " + childId_Id.ToString());
+                            Console.WriteLine("LookupValue: " + childId_Value.ToString());
+                        }
+                    }
+                }
             }
         }
 
