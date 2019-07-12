@@ -36,7 +36,7 @@ namespace TestDKBSapis
 
             //odata.GetPatenerAktiviteterListData(clientContext);
 
-            //odata.GetPatenerInspirationskategorierListData(clientContext);
+            odata.GetPatenerInspirationskategorierListData(clientContext);
 
             //odata.GetPatenerCenterbeskrivelseListData(clientContext);
 
@@ -56,7 +56,7 @@ namespace TestDKBSapis
 
             //odata.GetPatenerServicekatalogListData(clientContext);
 
-            odata.GetPatenerServicerequestcommunicationsListData(clientContext);
+            //odata.GetPatenerServicerequestcommunicationsListData(clientContext);
 
             //odata.GetPatenerServicerequestconversationitemsListData(clientContext);
 
@@ -148,7 +148,7 @@ namespace TestDKBSapis
             }
         }
 
-        //Kursuspakke
+        //Kursuspakke --Done
         public void GetPatenerKursuspakkeListData(ClientContext clientContext)
         {
             SP.List oList = clientContext.Web.Lists.GetByTitle("Partnere");
@@ -189,7 +189,12 @@ namespace TestDKBSapis
                     {
                         Console.WriteLine("ID: {0} \nTitle: {1} \nKursuspakkeUK:{2} \nOffered: {3} \nPrice:{4}", oItem.Id, oItem["Title"], oItem["KursuspakkeUK"], oItem["Offered"], oItem["Price"]);
                         Console.WriteLine("IncludedInPriceAdditional: {0} \nIncludedInPriceDefault:{1} \nOptionalPurchases: {2} \nPricePerYear:{3}", oItem["IncludedInPriceAdditional"], oItem["IncludedInPriceDefault"], oItem["OptionalPurchases"], oItem["PricePerYear"]);
-
+                        Console.WriteLine(((SP.FieldUserValue)(oItem["Author"])).LookupValue);
+                        Console.WriteLine(((SP.FieldUserValue)(oItem["Editor"])).LookupValue);
+                        Console.WriteLine(oItem["Created"].ToString());
+                        Console.WriteLine(oItem["Modified"].ToString());
+                        Console.WriteLine(oItem["KursuspakkeID"]);
+                        
                     }
 
                 }
@@ -197,7 +202,7 @@ namespace TestDKBSapis
             }
         }
 
-        //Aktiviteter
+        //Aktiviteter --Done
         public void GetPatenerAktiviteterListData(ClientContext clientContext)
         {
             SP.List oList = clientContext.Web.Lists.GetByTitle("Partnere");
@@ -237,14 +242,22 @@ namespace TestDKBSapis
                     foreach (ListItem oItem in oListDataItem)
                     {
                         Console.WriteLine("ID: {0} \nHeadline: {1}", oItem["ID"], oItem["Headline"]);
-                    }
+                        Console.WriteLine(((SP.FieldUserValue)(oItem["Author"])).LookupValue);
+                        Console.WriteLine(((SP.FieldUserValue)(oItem["Editor"])).LookupValue);
+                        Console.WriteLine(oItem["Created"].ToString());
+                        Console.WriteLine(oItem["Modified"].ToString());
+                        Console.WriteLine(oItem["Title"]);
+                        Console.WriteLine(oItem["Description"]);
+                        Console.WriteLine(oItem["Picture"]);
+                        Console.WriteLine(oItem["Price"]);
+                     }
 
                 }
 
             }
         }
 
-        //Inspirationskategorier(EN)
+        //Inspirationskategorier(EN) --Done
         public void GetPatenerInspirationskategorierListData(ClientContext clientContext)
         {
             SP.List oList = clientContext.Web.Lists.GetByTitle("Partnere");
@@ -284,14 +297,22 @@ namespace TestDKBSapis
                     foreach (ListItem oItem in oListDataItem)
                     {
                         Console.WriteLine("ID: {0} \nHeadline: {1}", oItem["ID"], oItem["Headline"]);
-                    }
+                        Console.WriteLine(((SP.FieldUserValue)(oItem["Author"])).LookupValue);
+                        Console.WriteLine(((SP.FieldUserValue)(oItem["Editor"])).LookupValue);
+                        Console.WriteLine(oItem["Created"].ToString());
+                        Console.WriteLine(oItem["Modified"].ToString());
+                        Console.WriteLine(oItem["Title"]);
+                        Console.WriteLine(oItem["Description"]);
+                        Console.WriteLine(oItem["Picture"]);
+                        Console.WriteLine(oItem["Price"]);
+                     }
 
                 }
 
             }
         }
 
-        //Centerbeskrivelse
+        //Centerbeskrivelse --Done
         public void GetPatenerCenterbeskrivelseListData(ClientContext clientContext)
         {
             SP.List oList = clientContext.Web.Lists.GetByTitle("Partnere");
@@ -333,7 +354,10 @@ namespace TestDKBSapis
                         Console.WriteLine("ID: {0} \nDescription: {1} \nLanguageType:{2} \nRooms:{3}", oItem["ID"], oItem["Description"], oItem["LanguageType"], oItem["Rooms"]);
                         Console.WriteLine("TraficConnections: {0} \nCapacity: {1} \nFacilities:{2} \nActivities:{3}", oItem["TraficConnections"], oItem["Capacity"], oItem["Facilities"], oItem["Activities"]);
                         Console.WriteLine("TextOffer: {0} \nFurtherIncluded: {1}", oItem["TextOffer"], oItem["FurtherIncluded"]);
-
+                        Console.WriteLine(((SP.FieldUserValue)(oItem["Author"])).LookupValue);
+                        Console.WriteLine(((SP.FieldUserValue)(oItem["Editor"])).LookupValue);
+                        Console.WriteLine(oItem["Created"].ToString());
+                        Console.WriteLine(oItem["Modified"].ToString());
                     }
 
                 }
@@ -724,6 +748,7 @@ namespace TestDKBSapis
                 }
             }
         }
+
         //Service request communications --Done
         public void GetPatenerServicerequestcommunicationsListData(ClientContext clientContext)
         {
