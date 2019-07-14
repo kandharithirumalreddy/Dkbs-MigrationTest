@@ -28,7 +28,7 @@ namespace TestDKBSapis
             //Connected successfully
             getListData odata = new getListData();
 
-            //odata.getBookingerListData(clientContext);
+            odata.getBookingerListData(clientContext);
 
             //odata.GetPatenerKursuspakkeListData(clientContext);
 
@@ -36,7 +36,7 @@ namespace TestDKBSapis
 
             //odata.GetPatenerAktiviteterListData(clientContext);
 
-            odata.GetPatenerInspirationskategorierListData(clientContext);
+            //odata.GetPatenerInspirationskategorierListData(clientContext);
 
             //odata.GetPatenerCenterbeskrivelseListData(clientContext);
 
@@ -85,20 +85,27 @@ namespace TestDKBSapis
                     {
                         {
                             string contentTypeName = ct.Name;
-                            var query = new CamlQuery()
+                            ListItemCollectionPosition position = null;
+                            var page = 1;
+                            do
                             {
-                                ViewXml = String.Format("<View Scope='RecursiveAll'><Query><Where><Eq><FieldRef Name='ContentType' /><Value Type='Computed'>{0}</Value></Eq></Where></Query></View>", contentTypeName)
-                                // ViewXml = String.Format("<View Scope='RecursiveAll'><RowLimit>5000</RowLimit></View>")
-                            };
-                            ListItemCollection collListItem = oList.GetItems(query);
-                            clientContext.Load(collListItem);
-                            clientContext.ExecuteQuery();
-                            itemPosition = collListItem.ListItemCollectionPosition;
-                            Console.WriteLine(itemPosition);
-                            foreach (ListItem oListItem in collListItem)
-                            {
-                                Console.WriteLine("ID: {0} \nTitle: {1} ", oListItem.Id, oListItem["Title"]);
+                                var query = new CamlQuery()
+                                {
+                                    ViewXml = String.Format("<View Scope='Recursive'><Query><Where><Eq><FieldRef Name='ContentType' /><Value Type='Computed'>{0}</Value></Eq></Where></Query><RowLimit>5000</RowLimit></View>", contentTypeName)
+                                };
+                                query.ListItemCollectionPosition = position;
+                                ListItemCollection collListItem = oList.GetItems(query);
+                                clientContext.Load(collListItem);
+                                clientContext.ExecuteQuery();
+                                position = collListItem.ListItemCollectionPosition;
+                                Console.WriteLine(position);
+                                foreach (ListItem oListItem in collListItem)
+                                {
+                                    Console.WriteLine("ID: {0} \nTitle: {1} ", oListItem.Id, oListItem["Title"]);
+                                }
+                                page++;
                             }
+                            while (position != null);
                         }
                     }
                     catch (Exception ex)
@@ -194,7 +201,7 @@ namespace TestDKBSapis
                         Console.WriteLine(oItem["Created"].ToString());
                         Console.WriteLine(oItem["Modified"].ToString());
                         Console.WriteLine(oItem["KursuspakkeID"]);
-                        
+
                     }
 
                 }
@@ -250,7 +257,7 @@ namespace TestDKBSapis
                         Console.WriteLine(oItem["Description"]);
                         Console.WriteLine(oItem["Picture"]);
                         Console.WriteLine(oItem["Price"]);
-                     }
+                    }
 
                 }
 
@@ -305,7 +312,7 @@ namespace TestDKBSapis
                         Console.WriteLine(oItem["Description"]);
                         Console.WriteLine(oItem["Picture"]);
                         Console.WriteLine(oItem["Price"]);
-                     }
+                    }
 
                 }
 
@@ -469,7 +476,7 @@ namespace TestDKBSapis
             }
         }
 
-        //Billeder
+        //Billeder --Done
         public void getImages(ClientContext clientContext)
         {
             SP.List oList = clientContext.Web.Lists.GetByTitle("Partnere");
@@ -548,7 +555,7 @@ namespace TestDKBSapis
                 Console.WriteLine(oItem["IsQuestion"]);
                 Console.WriteLine(oItem["ParentItemEditor"]);
                 Console.WriteLine(oItem["LastReplyBy"]);
-                if (oItem["MailGroups"]!=null)
+                if (oItem["MailGroups"] != null)
                 {
                     Console.WriteLine(oItem["MailGroups"]);
                     var childIdField = oItem["MailGroups"] as FieldLookupValue[];
@@ -664,42 +671,282 @@ namespace TestDKBSapis
             }
         }
 
-        //Procedures
+        //Procedures --Done
         public void GetPatenerProceduresListData(ClientContext clientContext)
         {
-
             SP.List oListData = clientContext.Web.Lists.GetByTitle("Procedures");
-            CamlQuery camlQuery = new CamlQuery();
-            camlQuery.ViewXml = "<View Scope='RecursiveAll'><Query></Query></View>";
-            ListItemCollection oListDataItem = oListData.GetItems(camlQuery);
-
-            clientContext.Load(oListDataItem);
-
-            clientContext.ExecuteQuery();
-
-            foreach (ListItem oItem in oListDataItem)
+            ListItemCollectionPosition position = null;
+            var page = 1;
+            do
             {
-                Console.WriteLine("ID: {0} \nTitle: {1}", oItem["ID"], oItem["Title"]);
+                CamlQuery camlQuery = new CamlQuery();
+                camlQuery.ViewXml = "<View Scope='Recursive'><Query></Query><RowLimit>5000</RowLimit></View>";
+                camlQuery.ListItemCollectionPosition = position;
+                ListItemCollection oListDataItem = oListData.GetItems(camlQuery);
+
+                clientContext.Load(oListDataItem);
+
+                clientContext.ExecuteQuery();
+                position = oListDataItem.ListItemCollectionPosition;
+                foreach (ListItem oItem in oListDataItem)
+                {
+                    Console.WriteLine("ID: {0} \nTitle: {1}", oItem["ID"], oItem["Title"]);
+                    Console.WriteLine(((SP.FieldUserValue)(oItem["Author"])).LookupValue);
+                    Console.WriteLine(((SP.FieldUserValue)(oItem["Editor"])).LookupValue);
+                    Console.WriteLine(oItem["Created"].ToString());
+                    Console.WriteLine(oItem["Modified"].ToString());
+                    Console.WriteLine(oItem["Predecessors"]);
+                    Console.WriteLine(oItem["ParentSR"]);
+                    Console.WriteLine(oItem["ParentIM"]);
+                    Console.WriteLine(oItem["ITProcedures"]);
+                    Console.WriteLine(oItem["RelevantOrderDetails"]);
+                    Console.WriteLine(oItem["RelevantOrderDetailsStaticHTML"]);
+                    Console.WriteLine(oItem["DKBSReopenComment"]);
+                    Console.WriteLine(oItem["Arrangementtype"]);
+                    Console.WriteLine(oItem["Antal_x0020_grupperum"]);
+                    Console.WriteLine(oItem["AlternativtServices"]);
+                    if (oItem["Reason"] != null)
+                    {
+                        Console.WriteLine(oItem["Reason"]);
+                        var childIdField = oItem["Reason"] as FieldLookupValue[];
+                        if (childIdField != null)
+                        {
+                            foreach (var lookupValue in childIdField)
+                            {
+                                var childId_Value = lookupValue.LookupValue;
+                                var childId_Id = lookupValue.LookupId;
+
+                                Console.WriteLine("LookupID: " + childId_Id.ToString());
+                                Console.WriteLine("LookupValue: " + childId_Value.ToString());
+                            }
+                        }
+
+                    }
+                    if (oItem["ItProcResponsible"] != null)
+                    {
+                        Console.WriteLine(oItem["ItProcResponsible"]);
+                        var childIdField = oItem["ItProcResponsible"] as FieldLookupValue[];
+                        if (childIdField != null)
+                        {
+                            foreach (var lookupValue in childIdField)
+                            {
+                                var childId_Value = lookupValue.LookupValue;
+                                var childId_Id = lookupValue.LookupId;
+
+                                Console.WriteLine("LookupID: " + childId_Id.ToString());
+                                Console.WriteLine("LookupValue: " + childId_Value.ToString());
+                            }
+                        }
+
+                    }
+                    if (oItem["RelatedCI"] != null)
+                    {
+                        Console.WriteLine(oItem["RelatedCI"]);
+                        var childIdField = oItem["RelatedCI"] as FieldLookupValue[];
+                        if (childIdField != null)
+                        {
+                            foreach (var lookupValue in childIdField)
+                            {
+                                var childId_Value = lookupValue.LookupValue;
+                                var childId_Id = lookupValue.LookupId;
+
+                                Console.WriteLine("LookupID: " + childId_Id.ToString());
+                                Console.WriteLine("LookupValue: " + childId_Value.ToString());
+                            }
+                        }
+
+                    }
+                    if (oItem["Communications"] != null)
+                    {
+                        Console.WriteLine(oItem["Communications"]);
+                        var childIdField = oItem["Communications"] as FieldLookupValue[];
+                        if (childIdField != null)
+                        {
+                            foreach (var lookupValue in childIdField)
+                            {
+                                var childId_Value = lookupValue.LookupValue;
+                                var childId_Id = lookupValue.LookupId;
+
+                                Console.WriteLine("LookupID: " + childId_Id.ToString());
+                                Console.WriteLine("LookupValue: " + childId_Value.ToString());
+                            }
+                        }
+
+                    }
+                    if (oItem["ITProcContactPerson"] != null)
+                    {
+                        Console.WriteLine(oItem["ITProcContactPerson"]);
+                        var childIdField = oItem["ITProcContactPerson"] as FieldLookupValue[];
+                        if (childIdField != null)
+                        {
+                            foreach (var lookupValue in childIdField)
+                            {
+                                var childId_Value = lookupValue.LookupValue;
+                                var childId_Id = lookupValue.LookupId;
+
+                                Console.WriteLine("LookupID: " + childId_Id.ToString());
+                                Console.WriteLine("LookupValue: " + childId_Value.ToString());
+                            }
+                        }
+
+                    }
+                    if (oItem["ITProcFirma"] != null)
+                    {
+                        Console.WriteLine(oItem["ITProcFirma"]);
+                        var childIdField = oItem["ITProcFirma"] as FieldLookupValue[];
+                        if (childIdField != null)
+                        {
+                            foreach (var lookupValue in childIdField)
+                            {
+                                var childId_Value = lookupValue.LookupValue;
+                                var childId_Id = lookupValue.LookupId;
+
+                                Console.WriteLine("LookupID: " + childId_Id.ToString());
+                                Console.WriteLine("LookupValue: " + childId_Value.ToString());
+                            }
+                        }
+
+                    }
+                    if (oItem["CauseOFProcedureRemoval"] != null)
+                    {
+                        Console.WriteLine(oItem["CauseOFProcedureRemoval"]);
+                        var childIdField = oItem["CauseOFProcedureRemoval"] as FieldLookupValue[];
+                        if (childIdField != null)
+                        {
+                            foreach (var lookupValue in childIdField)
+                            {
+                                var childId_Value = lookupValue.LookupValue;
+                                var childId_Id = lookupValue.LookupId;
+
+                                Console.WriteLine("LookupID: " + childId_Id.ToString());
+                                Console.WriteLine("LookupValue: " + childId_Value.ToString());
+                            }
+                        }
+
+                    }
+                    Console.WriteLine(oItem["MainCase"]);
+                    Console.WriteLine(oItem["Responsible"]);
+                    Console.WriteLine(oItem["CaseType"]);
+                    Console.WriteLine(oItem["Status"]);
+
+                    Console.WriteLine(oItem["Outcome"]);
+                    Console.WriteLine(oItem["ResponseTime"]);
+                    Console.WriteLine(oItem["BeforeReopenCalculatedTime"]);
+                    Console.WriteLine(oItem["CloseOrReopenDate"]);
+                    Console.WriteLine(oItem["ResponsibleDKBS"]);
+                    Console.WriteLine(oItem["ClosedProcedure"]);
+                    Console.WriteLine(oItem["ITProcedureStatus"]);
+                    Console.WriteLine(oItem["ITProcAnkomst"]);
+
+                    Console.WriteLine(oItem["ITProcAfrejse"]);
+                    Console.WriteLine(oItem["NeedReview"]);
+                    Console.WriteLine(oItem["Read"]);
+                    Console.WriteLine(oItem["SRMID"]);
+
+                    Console.WriteLine(oItem["FirmaBranchekode"]);
+                    Console.WriteLine(oItem["ITProcedureCancelReason"]);
+                    Console.WriteLine(oItem["PlannedEnd"]);
+                    Console.WriteLine(oItem["NotifWithMail"]);
+                    Console.WriteLine(oItem["RelevantProcedureOutcome"]);
+                    Console.WriteLine(oItem["TurnOffNotification"]);
+                    Console.WriteLine(oItem["ExternalPerson"]);
+                    Console.WriteLine(oItem["ResponsibleTeam"]);
+                    Console.WriteLine(oItem["PlannedStart"]);
+                    Console.WriteLine(oItem["UsedInEmailOffer"]);
+
+                }
+                page++;
             }
+            while (position != null);
         }
 
-        //Provision
+        //Provision --Done
         public void GetPatenerProvisionListData(ClientContext clientContext)
         {
-
+         
             SP.List oListData = clientContext.Web.Lists.GetByTitle("Provision");
-            CamlQuery camlQuery = new CamlQuery();
-            camlQuery.ViewXml = "<View Scope='RecursiveAll'><Query></Query></View>";
-            ListItemCollection oListDataItem = oListData.GetItems(camlQuery);
-
-            clientContext.Load(oListDataItem);
-
-            clientContext.ExecuteQuery();
-
-            foreach (ListItem oItem in oListDataItem)
+            ListItemCollectionPosition position = null;
+            var page = 1;
+            do
             {
-                Console.WriteLine("ID: {0} \nTitle: {1}", oItem["ID"], oItem["Title"]);
+                CamlQuery camlQuery = new CamlQuery();
+                camlQuery.ViewXml = "<View Scope='Recursive'><Query></Query><RowLimit>5000</RowLimit></View>";
+                camlQuery.ListItemCollectionPosition = position;
+                ListItemCollection oListDataItem = oListData.GetItems(camlQuery);
+
+                clientContext.Load(oListDataItem);
+
+                clientContext.ExecuteQuery();
+                position = oListDataItem.ListItemCollectionPosition;
+                foreach (ListItem oItem in oListDataItem)
+                {
+                    Console.WriteLine("ID: {0} \nTitle: {1}", oItem["ID"], oItem["Title"]);
+                    Console.WriteLine(((SP.FieldUserValue)(oItem["Author"])).LookupValue);
+                    Console.WriteLine(((SP.FieldUserValue)(oItem["Editor"])).LookupValue);
+                    Console.WriteLine(oItem["Created"].ToString());
+                    Console.WriteLine(oItem["Modified"].ToString());
+                    Console.WriteLine(oItem["Afrejse"]);
+                    Console.WriteLine(oItem["Ankomst"]);
+                    Console.WriteLine(oItem["DatoForAfsendelse"]);
+                    Console.WriteLine(oItem["Debtor"]);
+                    Console.WriteLine(oItem["Pris"]);
+                    Console.WriteLine(oItem["LinkToParentItem"]);
+                    Console.WriteLine(oItem["UnitID"]);
+                    if (oItem["PartnerLookup"] != null)
+                    {
+                        Console.WriteLine(oItem["PartnerLookup"]);
+                        var childIdField = oItem["PartnerLookup"] as FieldLookupValue[];
+                        if (childIdField != null)
+                        {
+                            foreach (var lookupValue in childIdField)
+                            {
+                                var childId_Value = lookupValue.LookupValue;
+                                var childId_Id = lookupValue.LookupId;
+
+                                Console.WriteLine("LookupID: " + childId_Id.ToString());
+                                Console.WriteLine("LookupValue: " + childId_Value.ToString());
+                            }
+                        }
+
+                    }
+                    if (oItem["Kunde"] != null)
+                    {
+                        Console.WriteLine(oItem["Kunde"]);
+                        var childIdField = oItem["Kunde"] as FieldLookupValue[];
+                        if (childIdField != null)
+                        {
+                            foreach (var lookupValue in childIdField)
+                            {
+                                var childId_Value = lookupValue.LookupValue;
+                                var childId_Id = lookupValue.LookupId;
+
+                                Console.WriteLine("LookupID: " + childId_Id.ToString());
+                                Console.WriteLine("LookupValue: " + childId_Value.ToString());
+                            }
+                        }
+
+                    }
+                    if (oItem["BookingerID"] != null)
+                    {
+                        Console.WriteLine(oItem["BookingerID"]);
+                        var childIdField = oItem["BookingerID"] as FieldLookupValue[];
+                        if (childIdField != null)
+                        {
+                            foreach (var lookupValue in childIdField)
+                            {
+                                var childId_Value = lookupValue.LookupValue;
+                                var childId_Id = lookupValue.LookupId;
+
+                                Console.WriteLine("LookupID: " + childId_Id.ToString());
+                                Console.WriteLine("LookupValue: " + childId_Value.ToString());
+                            }
+                        }
+
+                    }
+                }
+                page++;
             }
+            while (position != null);
         }
 
         //Service katalog --Done
@@ -812,42 +1059,128 @@ namespace TestDKBSapis
             }
         }
 
-        //Service request conversation items
+        //Service request conversation items --Done
         public void GetPatenerServicerequestconversationitemsListData(ClientContext clientContext)
         {
 
             SP.List oListData = clientContext.Web.Lists.GetByTitle("Service request conversation items");
-            CamlQuery camlQuery = new CamlQuery();
-            camlQuery.ViewXml = "<View Scope='RecursiveAll'><Query></Query></View>";
-            ListItemCollection oListDataItem = oListData.GetItems(camlQuery);
-
-            clientContext.Load(oListDataItem);
-
-            clientContext.ExecuteQuery();
-
-            foreach (ListItem oItem in oListDataItem)
+            ListItemCollectionPosition position = null;
+            var page = 1;
+            do
             {
-                Console.WriteLine("ID: {0} \nTitle: {1}", oItem["ID"], oItem["Title"]);
-            }
-        }
+                CamlQuery camlQuery = new CamlQuery();
+                camlQuery.ViewXml = "<View Scope='Recursive'><Query></Query><RowLimit>5000</RowLimit></View>";
+                camlQuery.ListItemCollectionPosition = position;
+                ListItemCollection oListDataItem = oListData.GetItems(camlQuery);
 
-        //Service request notes		
+                clientContext.Load(oListDataItem);
+
+                clientContext.ExecuteQuery();
+                position = oListDataItem.ListItemCollectionPosition;
+                foreach (ListItem oItem in oListDataItem)
+                {
+                    Console.WriteLine("ID: {0} \nTitle: {1}", oItem["ID"], oItem["Title"]);
+                    Console.WriteLine(((SP.FieldUserValue)(oItem["Author"])).LookupValue);
+                    Console.WriteLine(((SP.FieldUserValue)(oItem["Editor"])).LookupValue);
+                    Console.WriteLine(oItem["Created"].ToString());
+                    Console.WriteLine(oItem["Modified"].ToString());
+                    Console.WriteLine(oItem["Message"]);
+                    Console.WriteLine(oItem["Sender"]);
+                    Console.WriteLine(oItem["CcAdresses"]);
+                    Console.WriteLine(oItem["MessageId"]);
+                    if (oItem["RelatedServiceRequest"] != null)
+                    {
+                        Console.WriteLine(oItem["RelatedServiceRequest"]);
+                        var childIdField = oItem["RelatedServiceRequest"] as FieldLookupValue[];
+                        if (childIdField != null)
+                        {
+                            foreach (var lookupValue in childIdField)
+                            {
+                                var childId_Value = lookupValue.LookupValue;
+                                var childId_Id = lookupValue.LookupId;
+
+                                Console.WriteLine("LookupID: " + childId_Id.ToString());
+                                Console.WriteLine("LookupValue: " + childId_Value.ToString());
+                            }
+                        }
+
+                    }
+                }
+                page++;
+            }
+            while (position != null);
+        }
+       
+        //Service request notes	--Done	
         public void GetPatenerServicerequestnotesListData(ClientContext clientContext)
         {
 
             SP.List oListData = clientContext.Web.Lists.GetByTitle("Service request notes");
-            CamlQuery camlQuery = new CamlQuery();
-            camlQuery.ViewXml = "<View Scope='RecursiveAll'><Query></Query></View>";
-            ListItemCollection oListDataItem = oListData.GetItems(camlQuery);
-
-            clientContext.Load(oListDataItem);
-
-            clientContext.ExecuteQuery();
-
-            foreach (ListItem oItem in oListDataItem)
+            ListItemCollectionPosition position = null;
+            var page = 1;
+            do
             {
-                Console.WriteLine("ID: {0} \nTitle: {1}", oItem["ID"], oItem["Title"]);
+                CamlQuery camlQuery = new CamlQuery();
+                camlQuery.ViewXml = "<View Scope='Recursive'><Query></Query><RowLimit>5000</RowLimit></View>";
+                camlQuery.ListItemCollectionPosition = position;
+                ListItemCollection oListDataItem = oListData.GetItems(camlQuery);
+
+                clientContext.Load(oListDataItem);
+
+                clientContext.ExecuteQuery();
+
+                position = oListDataItem.ListItemCollectionPosition;
+                foreach (ListItem oItem in oListDataItem)
+                {
+                    Console.WriteLine("ID: {0} \nTitle: {1}", oItem["ID"], oItem["Title"]);
+                    Console.WriteLine(((SP.FieldUserValue)(oItem["Author"])).LookupValue);
+                    Console.WriteLine(((SP.FieldUserValue)(oItem["Editor"])).LookupValue);
+                    Console.WriteLine(oItem["Created"].ToString());
+                    Console.WriteLine(oItem["Modified"].ToString());
+                    Console.WriteLine(oItem["Action"]);
+                    Console.WriteLine(oItem["ScheduleAction"]);
+                    Console.WriteLine(oItem["PlannedStart"]);
+                    Console.WriteLine(oItem["Notify"]);
+                    Console.WriteLine(oItem["PlannedEnd"]);
+                    Console.WriteLine(oItem["CopyToCloseRemark"]);
+                    if (oItem["ServiceRequestID"] != null)
+                    {
+                        Console.WriteLine(oItem["ServiceRequestID"]);
+                        var childIdField = oItem["ServiceRequestID"] as FieldLookupValue[];
+                        if (childIdField != null)
+                        {
+                            foreach (var lookupValue in childIdField)
+                            {
+                                var childId_Value = lookupValue.LookupValue;
+                                var childId_Id = lookupValue.LookupId;
+
+                                Console.WriteLine("LookupID: " + childId_Id.ToString());
+                                Console.WriteLine("LookupValue: " + childId_Value.ToString());
+                            }
+                        }
+
+                    }
+                    if (oItem["CloseField"] != null)
+                    {
+                        Console.WriteLine(oItem["CloseField"]);
+                        var childIdField = oItem["CloseField"] as FieldLookupValue[];
+                        if (childIdField != null)
+                        {
+                            foreach (var lookupValue in childIdField)
+                            {
+                                var childId_Value = lookupValue.LookupValue;
+                                var childId_Id = lookupValue.LookupId;
+
+                                Console.WriteLine("LookupID: " + childId_Id.ToString());
+                                Console.WriteLine("LookupValue: " + childId_Value.ToString());
+                            }
+                        }
+
+                    }
+                }
+                page++;
             }
+            while (position != null);
         }
 
 
