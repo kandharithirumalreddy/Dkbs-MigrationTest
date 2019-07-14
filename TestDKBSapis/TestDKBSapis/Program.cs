@@ -80,8 +80,8 @@ namespace TestDKBSapis
                 {
                     Console.WriteLine(ct.Name);
                     Console.WriteLine("---Please wait while list item is displaying.---");
-                    try
-                    {
+ //                   try
+   //                 {
                         {
                             string contentTypeName = ct.Name;
                             ListItemCollectionPosition position = null;
@@ -101,16 +101,362 @@ namespace TestDKBSapis
                                 foreach (ListItem oListItem in collListItem)
                                 {
                                     Console.WriteLine("ID: {0} \nTitle: {1} ", oListItem.Id, oListItem["Title"]);
+                                   // Console.WriteLine(((SP.FieldUserValue)(oListItem["Author"])).LookupValue);
+                                   // Console.WriteLine(((SP.FieldUserValue)(oListItem["Editor"])).LookupValue);
+                                    Console.WriteLine(oListItem["Created"].ToString());
+                                    Console.WriteLine(oListItem["Modified"].ToString());
+                                    Console.WriteLine(oListItem["Modified"]);
+                                    Console.WriteLine(oListItem["ProcedureInfo"]);
+
+                                    Console.WriteLine(oListItem["ITProcedureReasonComments"]);
+                                    Console.WriteLine(oListItem["Flow"]);
+                                    Console.WriteLine(oListItem["Parkeret_x0020_indtil"]);
+                                    Console.WriteLine(oListItem["OrderView"]);
+                                    Console.WriteLine(oListItem["InternalHistoryNote"]);
+                                    Console.WriteLine(oListItem["FirstClosingDate"]);
+                                    Console.WriteLine(oListItem["MeetingSeries"]);
+                                    Console.WriteLine(oListItem["AdditionalSeriesText"]);
+                                    Console.WriteLine(oListItem["IsMainSeriesCase"]);
+                                    Console.WriteLine(oListItem["MailLanguage"]);
+
+                                    Console.WriteLine(oListItem["Ankomst"]);
+                                    Console.WriteLine(oListItem["Afrejse"]);
+                                    Console.WriteLine(oListItem["Eksakte_x0020_oplysninger_x0020_"]);
+                                    Console.WriteLine(oListItem["Vores_x0020_noter"]);
+                                    Console.WriteLine(oListItem["Form_x00e5_l"]);
+                                    Console.WriteLine(oListItem["Antal_x0020_deltagere"]);
+                                    Console.WriteLine(oListItem["Deltagere"]);
+                                    Console.WriteLine(oListItem["Bordopstilling"]);
+                                    Console.WriteLine(oListItem["Arrangementtype"]);
+                                    Console.WriteLine(oListItem["Antal_x0020_grupperum"]);
+                                    Console.WriteLine(oListItem["AlternativtServices"]);
+
+                                    Console.WriteLine(oListItem["Supplerende_x0020__x00f8_nsker_x"]);
+                                    Console.WriteLine(oListItem["_x00d8_nsket_x0020_geografisk_x0"]);
+                                    Console.WriteLine(oListItem["Responsible"]);
+                                    Console.WriteLine(oListItem["Statsaftale"]);
+                                    Console.WriteLine(oListItem["Regionsaftale"]);
+                                    Console.WriteLine(oListItem["CenterMatching"]);
+                                    Console.WriteLine(oListItem["Hvor_x0020_kender_x0020_du_x0020"]);
+                                    Console.WriteLine(oListItem["Henvist_x0020_kontaktperson"]);
+                                    Console.WriteLine(oListItem["fldEmail"]);
+                                    Console.WriteLine(oListItem["fldMobil"]);
+                                    Console.WriteLine(oListItem["fldTelefon"]);
+
+                                    Console.WriteLine(oListItem["Henvist_x0020_firma"]);
+                                    Console.WriteLine(oListItem["fldAdresse"]);
+                                    Console.WriteLine(oListItem["flsBranche"]);
+                                    Console.WriteLine(oListItem["Title"]);
+                                    Console.WriteLine(oListItem["CanceledStatusDropDown"]);
+                                    Console.WriteLine(oListItem["CanceledStatusText"]);
+                                    Console.WriteLine(oListItem["Placeringskommentar"]);
+                                    Console.WriteLine(oListItem["GreenKeySR"]);
+                                    Console.WriteLine(oListItem["AgreementForEmployeesSR"]);
+                                    Console.WriteLine(oListItem["DisabledAccessSR"]);
+
+                                    Console.WriteLine(oListItem["BarSR"]);
+                                    Console.WriteLine(oListItem["LoungeSR"]);
+                                    Console.WriteLine(oListItem["GamesSR"]);
+                                    Console.WriteLine(oListItem["SpaSR"]);
+                                    Console.WriteLine(oListItem["PoolSR"]);
+                                    Console.WriteLine(oListItem["FitnessRoomSR"]);
+                                    Console.WriteLine(oListItem["CasinoSR"]);
+                                    Console.WriteLine(oListItem["GreenAreaSR"]);
+                                    Console.WriteLine(oListItem["AirConSR"]);
+                                    Console.WriteLine(oListItem["CookingSchoolSR"]);
+
+                                    Console.WriteLine(oListItem["GolfSR"]);
+                                    Console.WriteLine(oListItem["StartDateTime"]);
+                                    Console.WriteLine(oListItem["fldStilling"]);
+                                    Console.WriteLine(oListItem["fldAfdeling"]);
+                                    Console.WriteLine(oListItem["fldHovedorganisation"]);
+                                    Console.WriteLine(oListItem["TurnOffNotification"]);
+                                    Console.WriteLine(oListItem["SRMID"]);
+                                    Console.WriteLine(oListItem["fldNyKunder"]);
+                                    Console.WriteLine(oListItem["Read"]);
+                                    Console.WriteLine(oListItem["CentretsKommentarerDKBS"]);
+
+                                    Console.WriteLine(oListItem["BogholdersKommentarerDKBS"]);
+                                    Console.WriteLine(oListItem["AngivetAfCenterIAltDKBS"]);
+                                    Console.WriteLine(oListItem["EstimeretAfDKBSIAlt"]);
+                                    Console.WriteLine(oListItem["DifferenceDKBS"]);
+                                    Console.WriteLine(oListItem["PlaceringsdatoDKBS"]);
+                                    Console.WriteLine(oListItem["AnkomstDKBS"]);
+                                    Console.WriteLine(oListItem["DifferenceIDageDKBS"]);
+                                    Console.WriteLine(oListItem["ProvisionssatsDKBS"]);
+                                    Console.WriteLine(oListItem["ProvisionForArrangementet"]);
+                                    Console.WriteLine(oListItem["Henvisninsgssats"]);
+                                    Console.WriteLine(oListItem["HenvisningForArrangement"]);
+                                    Console.WriteLine(oListItem["LinkToProvisionItem"]);
+                                    Console.WriteLine(oListItem["EvalueringDato"]);
+
+                                    if (oListItem["ProvisionLink"] != null)
+                                    {
+                                        var childIdField = oListItem["ProvisionLink"] as FieldLookupValue[];
+
+                                        if (childIdField != null)
+                                        {
+                                            foreach (var lookupValue in childIdField)
+                                            {
+                                                var childId_Value = lookupValue.LookupValue;
+                                                var childId_Id = lookupValue.LookupId;
+
+                                                Console.WriteLine("LookupID: " + childId_Id.ToString());
+                                                Console.WriteLine("LookupValue: " + childId_Value.ToString());
+                                            }
+                                        }
+                                    }
+                                    if (oListItem["HenvisningsProvisionLink"] != null)
+                                    {
+                                        var childIdField = oListItem["HenvisningsProvisionLink"] as FieldLookupValue[];
+
+                                        if (childIdField != null)
+                                        {
+                                            foreach (var lookupValue in childIdField)
+                                            {
+                                                var childId_Value = lookupValue.LookupValue;
+                                                var childId_Id = lookupValue.LookupId;
+
+                                                Console.WriteLine("LookupID: " + childId_Id.ToString());
+                                                Console.WriteLine("LookupValue: " + childId_Value.ToString());
+                                            }
+                                        }
+                                    }
+                                    if (oListItem["RequestRelationParent"] != null)
+                                    {
+                                        var childIdField = oListItem["RequestRelationParent"] as FieldLookupValue[];
+
+                                        if (childIdField != null)
+                                        {
+                                            foreach (var lookupValue in childIdField)
+                                            {
+                                                var childId_Value = lookupValue.LookupValue;
+                                                var childId_Id = lookupValue.LookupId;
+
+                                                Console.WriteLine("LookupID: " + childId_Id.ToString());
+                                                Console.WriteLine("LookupValue: " + childId_Value.ToString());
+                                            }
+                                        }
+                                    }
+                                    if (oListItem["Emails"] != null)
+                                    {
+                                        var childIdField = oListItem["Emails"] as FieldLookupValue[];
+
+                                        if (childIdField != null)
+                                        {
+                                            foreach (var lookupValue in childIdField)
+                                            {
+                                                var childId_Value = lookupValue.LookupValue;
+                                                var childId_Id = lookupValue.LookupId;
+
+                                                Console.WriteLine("LookupID: " + childId_Id.ToString());
+                                                Console.WriteLine("LookupValue: " + childId_Value.ToString());
+                                            }
+                                        }
+                                    }
+                                    if (oListItem["Communications"] != null)
+                                    {
+                                        var childIdField = oListItem["Communications"] as FieldLookupValue[];
+
+                                        if (childIdField != null)
+                                        {
+                                            foreach (var lookupValue in childIdField)
+                                            {
+                                                var childId_Value = lookupValue.LookupValue;
+                                                var childId_Id = lookupValue.LookupId;
+
+                                                Console.WriteLine("LookupID: " + childId_Id.ToString());
+                                                Console.WriteLine("LookupValue: " + childId_Value.ToString());
+                                            }
+                                        }
+                                    }
+                                    if (oListItem["ActionsTaken"] != null)
+                                    {
+                                        var childIdField = oListItem["ActionsTaken"] as FieldLookupValue[];
+
+                                        if (childIdField != null)
+                                        {
+                                            foreach (var lookupValue in childIdField)
+                                            {
+                                                var childId_Value = lookupValue.LookupValue;
+                                                var childId_Id = lookupValue.LookupId;
+
+                                                Console.WriteLine("LookupID: " + childId_Id.ToString());
+                                                Console.WriteLine("LookupValue: " + childId_Value.ToString());
+                                            }
+                                        }
+                                    }
+
+                                    if (oListItem["ZipMachingFilter"] != null)
+                                    {
+                                        var childIdField = oListItem["ZipMachingFilter"] as FieldLookupValue[];
+
+                                        if (childIdField != null)
+                                        {
+                                            foreach (var lookupValue in childIdField)
+                                            {
+                                                var childId_Value = lookupValue.LookupValue;
+                                                var childId_Id = lookupValue.LookupId;
+
+                                                Console.WriteLine("LookupID: " + childId_Id.ToString());
+                                                Console.WriteLine("LookupValue: " + childId_Value.ToString());
+                                            }
+                                        }
+                                    }
+                                    if (oListItem["Status"] != null)
+                                    {
+                                        var childIdField = oListItem["Status"] as FieldLookupValue[];
+
+                                        if (childIdField != null)
+                                        {
+                                            foreach (var lookupValue in childIdField)
+                                            {
+                                                var childId_Value = lookupValue.LookupValue;
+                                                var childId_Id = lookupValue.LookupId;
+
+                                                Console.WriteLine("LookupID: " + childId_Id.ToString());
+                                                Console.WriteLine("LookupValue: " + childId_Value.ToString());
+                                            }
+                                        }
+                                    }
+                                    if (oListItem["Placering"] != null)
+                                    {
+                                        var childIdField = oListItem["Placering"] as FieldLookupValue[];
+
+                                        if (childIdField != null)
+                                        {
+                                            foreach (var lookupValue in childIdField)
+                                            {
+                                                var childId_Value = lookupValue.LookupValue;
+                                                var childId_Id = lookupValue.LookupId;
+
+                                                Console.WriteLine("LookupID: " + childId_Id.ToString());
+                                                Console.WriteLine("LookupValue: " + childId_Value.ToString());
+                                            }
+                                        }
+                                    }
+                                    if (oListItem["Henvist_x0020_af"] != null)
+                                    {
+                                        var childIdField = oListItem["Henvist_x0020_af"] as FieldLookupValue[];
+
+                                        if (childIdField != null)
+                                        {
+                                            foreach (var lookupValue in childIdField)
+                                            {
+                                                var childId_Value = lookupValue.LookupValue;
+                                                var childId_Id = lookupValue.LookupId;
+
+                                                Console.WriteLine("LookupID: " + childId_Id.ToString());
+                                                Console.WriteLine("LookupValue: " + childId_Value.ToString());
+                                            }
+                                        }
+                                    }
+                                    if (oListItem["PartnerResponsible"] != null)
+                                    {
+                                        var childIdField = oListItem["PartnerResponsible"] as FieldLookupValue[];
+
+                                        if (childIdField != null)
+                                        {
+                                            foreach (var lookupValue in childIdField)
+                                            {
+                                                var childId_Value = lookupValue.LookupValue;
+                                                var childId_Id = lookupValue.LookupId;
+
+                                                Console.WriteLine("LookupID: " + childId_Id.ToString());
+                                                Console.WriteLine("LookupValue: " + childId_Value.ToString());
+                                            }
+                                        }
+                                    }
+                                    if (oListItem["Origin"] != null)
+                                    {
+                                        var childIdField = oListItem["Origin"] as FieldLookupValue[];
+
+                                        if (childIdField != null)
+                                        {
+                                            foreach (var lookupValue in childIdField)
+                                            {
+                                                var childId_Value = lookupValue.LookupValue;
+                                                var childId_Id = lookupValue.LookupId;
+
+                                                Console.WriteLine("LookupID: " + childId_Id.ToString());
+                                                Console.WriteLine("LookupValue: " + childId_Value.ToString());
+                                            }
+                                        }
+                                    }
+                                    if (oListItem["PartnerType"] != null)
+                                    {
+                                        var childIdField = oListItem["PartnerType"] as FieldLookupValue[];
+
+                                        if (childIdField != null)
+                                        {
+                                            foreach (var lookupValue in childIdField)
+                                            {
+                                                var childId_Value = lookupValue.LookupValue;
+                                                var childId_Id = lookupValue.LookupId;
+
+                                                Console.WriteLine("LookupID: " + childId_Id.ToString());
+                                                Console.WriteLine("LookupValue: " + childId_Value.ToString());
+                                            }
+                                        }
+                                    }
+                                    if (oListItem["Customer2"] != null)
+                                    {
+                                        var childIdField = oListItem["Customer2"] as FieldLookupValue[];
+
+                                        if (childIdField != null)
+                                        {
+                                            foreach (var lookupValue in childIdField)
+                                            {
+                                                var childId_Value = lookupValue.LookupValue;
+                                                var childId_Id = lookupValue.LookupId;
+
+                                                Console.WriteLine("LookupID: " + childId_Id.ToString());
+                                                Console.WriteLine("LookupValue: " + childId_Value.ToString());
+                                            }
+                                        }
+                                    }
+                                    if (oListItem["Requester2"] != null)
+                                    {
+                                        var childIdField = oListItem["Requester2"] as FieldLookupValue[];
+
+                                        if (childIdField != null)
+                                        {
+                                            foreach (var lookupValue in childIdField)
+                                            {
+                                                var childId_Value = lookupValue.LookupValue;
+                                                var childId_Id = lookupValue.LookupId;
+
+                                                Console.WriteLine("LookupID: " + childId_Id.ToString());
+                                                Console.WriteLine("LookupValue: " + childId_Value.ToString());
+                                            }
+                                        }
+                                    }
+                                    if (oListItem["CauseOFRemoval"] != null)
+                                    {
+                                        var childIdField = oListItem["CauseOFRemoval"] as FieldLookupValue[];
+
+                                        if (childIdField != null)
+                                        {
+                                            foreach (var lookupValue in childIdField)
+                                            {
+                                                var childId_Value = lookupValue.LookupValue;
+                                                var childId_Id = lookupValue.LookupId;
+
+                                                Console.WriteLine("LookupID: " + childId_Id.ToString());
+                                                Console.WriteLine("LookupValue: " + childId_Value.ToString());
+                                            }
+                                        }
+                                    }
                                 }
                                 page++;
                             }
                             while (position != null);
                         }
-                    }
-                    catch (Exception ex)
-                    {
-                        Console.WriteLine(ex);
-                    }
+                   // }
+                   // catch (Exception ex)
+                    //{
+                      //  Console.WriteLine(ex);
+                   // }
                 }
             }
         }
