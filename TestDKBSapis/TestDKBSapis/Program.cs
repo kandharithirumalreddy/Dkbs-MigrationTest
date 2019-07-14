@@ -71,7 +71,6 @@ namespace TestDKBSapis
         public void getBookingerListData(ClientContext clientContext)
         {
             List oList = clientContext.Web.Lists.GetByTitle("Bookinger");
-            ListItemCollectionPosition itemPosition = null;
             ContentTypeCollection ctColl = oList.ContentTypes;
             clientContext.Load(ctColl);
             clientContext.ExecuteQuery();
