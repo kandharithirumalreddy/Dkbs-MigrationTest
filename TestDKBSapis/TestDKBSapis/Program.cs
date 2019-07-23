@@ -28,7 +28,7 @@ namespace TestDKBSapis
             //Connected successfully
             getListData odata = new getListData();
 
-            odata.getBookingerListData(clientContext);
+           // odata.getBookingerListData(clientContext);
 
             //odata.GetPatenerKursuspakkeListData(clientContext);
 
@@ -54,7 +54,7 @@ namespace TestDKBSapis
 
             //odata.GetPatenerProvisionListData(clientContext);
 
-            //odata.GetPatenerServicekatalogListData(clientContext);
+            odata.GetPatenerServicekatalogListData(clientContext);
 
             //odata.GetPatenerServicerequestcommunicationsListData(clientContext);
 
