@@ -29,14 +29,16 @@ namespace TestDKBSapis
             getListData odata = new getListData();
 
            // odata.getBookingerListData(clientContext);
+           
+           // odata.GetPartnerListData(clientContext);
 
             //odata.GetPatenerKursuspakkeListData(clientContext);
 
-            //odata.getDocumentLib(clientContext);
+           odata.getDocumentLib(clientContext);
 
             //odata.GetPatenerAktiviteterListData(clientContext);
 
-            //odata.GetPatenerInspirationskategorierListData(clientContext);
+           // odata.GetPatenerInspirationskategorierListData(clientContext);
 
             //odata.GetPatenerCenterbeskrivelseListData(clientContext);
 
@@ -44,7 +46,7 @@ namespace TestDKBSapis
 
             //odata.GetPatenerCentretitalListData(clientContext);
 
-            //odata.getImages(clientContext);
+          // odata.getImages(clientContext);
 
             //odata.GetPatenerDiskussionsforumListData(clientContext);
 
@@ -54,7 +56,7 @@ namespace TestDKBSapis
 
             //odata.GetPatenerProvisionListData(clientContext);
 
-            odata.GetPatenerServicekatalogListData(clientContext);
+            // odata.GetPatenerServicekatalogListData(clientContext);
 
             //odata.GetPatenerServicerequestcommunicationsListData(clientContext);
 
@@ -481,6 +483,7 @@ namespace TestDKBSapis
                 Console.WriteLine(oItem["Modified"].ToString());
                 Console.WriteLine(oItem["URL"]);
                 Console.WriteLine(oItem["ContentTypeId"].ToString());
+                Microsoft.SharePoint.Client.File file = oItem.File;
                 if (oItem["RelatedPartnerType"] != null)
                 {
                     var childIdField = oItem["RelatedPartnerType"] as FieldLookupValue[];
@@ -868,6 +871,21 @@ namespace TestDKBSapis
                         Console.WriteLine(((SP.FieldUserValue)(oItem["Editor"])).LookupValue);
                         Console.WriteLine(oItem["Created"].ToString());
                         Console.WriteLine(oItem["Modified"].ToString());
+
+                        Microsoft.SharePoint.Client.File file = oItem.File;
+                        //if (file != null)
+                        //{
+
+                        //    FileInformation fileInfo = file.OpenBinaryStream(clientContext, FileRef.ToString());
+                        //FileInformation fileInfo = File.OpenBinaryDirect(context, fileRef.ToString());
+
+                        //    var fileName = Path.Combine(filePath, (string)listItem.File.Name);
+                        //    using (var fileStream = System.IO.File.Create(fileName))
+                        //    {
+                        //        fileInfo.Stream.CopyTo(fileStream);
+                        //    }
+                        //}
+
 
                     }
 
@@ -1522,6 +1540,100 @@ namespace TestDKBSapis
                         }
 
                     }
+                }
+                page++;
+            }
+            while (position != null);
+        }
+
+        public void GetPartnerListData(ClientContext clientContext)
+        {
+
+            SP.List oListData = clientContext.Web.Lists.GetByTitle("Partnere");
+            ListItemCollectionPosition position = null;
+            var page = 1;
+            do
+            {
+                CamlQuery camlQuery = new CamlQuery();
+                camlQuery.ViewXml = "<View Scope='Recursive'><Query></Query><RowLimit>5000</RowLimit></View>";
+                camlQuery.ListItemCollectionPosition = position;
+                ListItemCollection oListDataItem = oListData.GetItems(camlQuery);
+
+                clientContext.Load(oListDataItem);
+
+                clientContext.ExecuteQuery();
+                position = oListDataItem.ListItemCollectionPosition;
+                foreach (ListItem oItem in oListDataItem)
+                {
+                    Console.WriteLine("ID: {0} \nTitle: {1}", oItem["ID"], oItem["Title"]);
+                    //Console.WriteLine(((SP.FieldUserValue)(oItem["Author"])).LookupValue);
+                    //Console.WriteLine(((SP.FieldUserValue)(oItem["Editor"])).LookupValue);
+                    Console.WriteLine(oItem["Created"].ToString());
+                    Console.WriteLine(oItem["Modified"].ToString());
+                  //  Console.WriteLine(oItem["MembershipStartDate"].ToString());
+                    Console.WriteLine(oItem["VatNumber"]);
+                    Console.WriteLine(oItem["Phone"]);
+                    Console.WriteLine(oItem["DebtorNumber"]);
+                    Console.WriteLine(oItem["DebtorNumber2"]);
+                    Console.WriteLine(oItem["EmailAddress"]);
+                    Console.WriteLine(oItem["Website"]);
+                    Console.WriteLine(oItem["PanoramaView"]);
+                    Console.WriteLine(oItem["PublicURL"]);
+                    Console.WriteLine(oItem["Quality"]);
+                    Console.WriteLine(oItem["Address1"]);
+                    Console.WriteLine(oItem["Address2"]);
+
+                    //if (oItem["PartnerType"] != null)
+                    //{
+                    //    Console.WriteLine(oItem["PartnerType"]);
+                    //    var childIdField = oItem["PartnerType"] as FieldLookupValue[];
+                    //    if (childIdField != null)
+                    //    {
+                    //        foreach (var lookupValue in childIdField)
+                    //        {
+                    //            var childId_Value = lookupValue.LookupValue;
+                    //            var childId_Id = lookupValue.LookupId;
+
+                    //            Console.WriteLine("LookupID: " + childId_Id.ToString());
+                    //            Console.WriteLine("LookupValue: " + childId_Value.ToString());
+                    //        }
+                    //    }
+
+                    //}
+                    //if (oItem["Region"] != null)
+                    //{
+                    //    Console.WriteLine(oItem["postNumber"]);
+                    //    var childIdField = oItem["postNumber"] as FieldLookupValue[];
+                    //    if (childIdField != null)
+                    //    {
+                    //        foreach (var lookupValue in childIdField)
+                    //        {
+                    //            var childId_Value = lookupValue.LookupValue;
+                    //            var childId_Id = lookupValue.LookupId;
+
+                    //            Console.WriteLine("LookupID: " + childId_Id.ToString());
+                    //            Console.WriteLine("LookupValue: " + childId_Value.ToString());
+                    //        }
+                    //    }
+
+                    //}
+                    //if (oItem["land"] != null)
+                    //{
+                    //    Console.WriteLine(oItem["land"]);
+                    //    var childIdField = oItem["land"] as FieldLookupValue[];
+                    //    if (childIdField != null)
+                    //    {
+                    //        foreach (var lookupValue in childIdField)
+                    //        {
+                    //            var childId_Value = lookupValue.LookupValue;
+                    //            var childId_Id = lookupValue.LookupId;
+
+                    //            Console.WriteLine("LookupID: " + childId_Id.ToString());
+                    //            Console.WriteLine("LookupValue: " + childId_Value.ToString());
+                    //        }
+                    //   }
+
+                  //  }
                 }
                 page++;
             }
