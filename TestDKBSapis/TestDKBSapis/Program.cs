@@ -38,7 +38,7 @@ namespace TestDKBSapis
 
             //odata.GetPatenerAktiviteterListData(clientContext);
 
-           // odata.GetPatenerInspirationskategorierListData(clientContext);
+          //  odata.GetPatenerInspirationskategorierListData(clientContext);
 
             //odata.GetPatenerCenterbeskrivelseListData(clientContext);
 
@@ -46,7 +46,7 @@ namespace TestDKBSapis
 
             //odata.GetPatenerCentretitalListData(clientContext);
 
-          // odata.getImages(clientContext);
+          //odata.getImages(clientContext);
 
             //odata.GetPatenerDiskussionsforumListData(clientContext);
 
@@ -483,7 +483,14 @@ namespace TestDKBSapis
                 Console.WriteLine(oItem["Modified"].ToString());
                 Console.WriteLine(oItem["URL"]);
                 Console.WriteLine(oItem["ContentTypeId"].ToString());
-                Microsoft.SharePoint.Client.File file = oItem.File;
+
+                if (oItem.FileSystemObjectType == FileSystemObjectType.Folder)
+                {
+                    //folder creation
+                }
+
+                
+
                 if (oItem["RelatedPartnerType"] != null)
                 {
                     var childIdField = oItem["RelatedPartnerType"] as FieldLookupValue[];
@@ -499,6 +506,25 @@ namespace TestDKBSapis
                             Console.WriteLine("LookupValue: " + childId_Value.ToString());
                         }
                     }
+                }
+            }
+
+            foreach(ListItem fitem in oListDataItem)
+            {
+                if (fitem.FileSystemObjectType == FileSystemObjectType.File)
+                {
+                    Microsoft.SharePoint.Client.File lfile = fitem.File;
+
+                    clientContext.Load(lfile);
+                    clientContext.ExecuteQuery();
+                    var fileRef = lfile.ServerRelativeUrl;
+                    var fileInfo = Microsoft.SharePoint.Client.File.OpenBinaryDirect(clientContext, fileRef);
+                    var fileName = Path.Combine("C:\\Users\\Thirumal\\Desktop\\Test\\Temp", (string)fitem.File.Name);
+                    using (var fileStream = System.IO.File.Create(fileName))
+                    {
+                        fileInfo.Stream.CopyToAsync(fileStream);
+                    }
+
                 }
             }
         }
@@ -618,7 +644,7 @@ namespace TestDKBSapis
             SP.List oList = clientContext.Web.Lists.GetByTitle("Partnere");
 
             CamlQuery camlQuery = new CamlQuery();
-            camlQuery.ViewXml = "<View Scope='RecursiveAll'><Query></Query></View>";
+           camlQuery.ViewXml = "<View Scope='RecursiveAll'><Query></Query></View>";
             ListItemCollection collListItem = oList.GetItems(camlQuery);
 
             clientContext.Load(collListItem);
@@ -830,7 +856,7 @@ namespace TestDKBSapis
             SP.List oList = clientContext.Web.Lists.GetByTitle("Partnere");
 
             CamlQuery camlQuery = new CamlQuery();
-            camlQuery.ViewXml = "<View Scope='RecursiveAll'><Query></Query></View>";
+            camlQuery.ViewXml = "<View Scope='Recursive'><Query><ViewFields><FieldRef Name='ID'/><FieldRef Name='ID'/><FieldRef Name='Title'/><FieldRef Name='CISite'/><FieldRef Name='CISiteShortUrl'/></ViewFields></Query></View>";
             ListItemCollection collListItem = oList.GetItems(camlQuery);
 
             clientContext.Load(collListItem);
@@ -872,24 +898,35 @@ namespace TestDKBSapis
                         Console.WriteLine(oItem["Created"].ToString());
                         Console.WriteLine(oItem["Modified"].ToString());
 
-                        Microsoft.SharePoint.Client.File file = oItem.File;
-                        //if (file != null)
-                        //{
-
-                        //    FileInformation fileInfo = file.OpenBinaryStream(clientContext, FileRef.ToString());
-                        //FileInformation fileInfo = File.OpenBinaryDirect(context, fileRef.ToString());
-
-                        //    var fileName = Path.Combine(filePath, (string)listItem.File.Name);
-                        //    using (var fileStream = System.IO.File.Create(fileName))
-                        //    {
-                        //        fileInfo.Stream.CopyTo(fileStream);
-                        //    }
-                        //}
-
-
+                        if (oItem.FileSystemObjectType == FileSystemObjectType.Folder)
+                        {
+                            //folder creation
+                        }
                     }
 
+                    foreach (ListItem fitem in oListDataItem)
+                    {
+                        if (fitem.FileSystemObjectType == FileSystemObjectType.File)
+                        {
+                            Microsoft.SharePoint.Client.File lfile = fitem.File;
+
+                            clientContext.Load(lfile);
+                            clientContext.ExecuteQuery();
+                            var fileRef = lfile.ServerRelativeUrl;
+                            var fileInfo = Microsoft.SharePoint.Client.File.OpenBinaryDirect(clientContext, fileRef);
+                            var fileName = Path.Combine("C:\\Users\\Thirumal\\Desktop\\Test\\Temp", (string)fitem.File.Name);
+                            using (var fileStream = System.IO.File.Create(fileName))
+                            {
+                                fileInfo.Stream.CopyToAsync(fileStream);
+                            }
+
+                        }
+                    }
+
+
                 }
+
+                
 
             }
         }
