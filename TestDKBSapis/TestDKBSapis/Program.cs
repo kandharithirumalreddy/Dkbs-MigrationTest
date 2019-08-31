@@ -28,41 +28,41 @@ namespace TestDKBSapis
             //Connected successfully
             getListData odata = new getListData();
 
-           // odata.getBookingerListData(clientContext);
-           
-           // odata.GetPartnerListData(clientContext);
+            // odata.getBookingerListData(clientContext);
 
-            //odata.GetPatenerKursuspakkeListData(clientContext);
+             odata.GetPartnerListData(clientContext);
 
-           odata.getDocumentLib(clientContext);
+            //    odata.GetPatenerKursuspakkeListData(clientContext);//working fine
 
-            //odata.GetPatenerAktiviteterListData(clientContext);
+            //  odata.getDocumentLib(clientContext);
 
-          //  odata.GetPatenerInspirationskategorierListData(clientContext);
+            //   odata.GetPatenerAktiviteterListData(clientContext);//working fine
 
-            //odata.GetPatenerCenterbeskrivelseListData(clientContext);
+            //  odata.GetPatenerInspirationskategorierListData(clientContext);//working fine
 
-            //odata.GetPatenerCentretsListData(clientContext);
+            //odata.GetPatenerCenterbeskrivelseListData(clientContext);//working fine
 
-            //odata.GetPatenerCentretitalListData(clientContext);
+            //  odata.GetPatenerCentretsListData(clientContext);//working fine
 
-          //odata.getImages(clientContext);
+            //  odata.GetPatenerCentretitalListData(clientContext);//working fine
 
-            //odata.GetPatenerDiskussionsforumListData(clientContext);
+            //odata.getImages(clientContext);
 
-            //odata.GetPatenerNyhederListData(clientContext);
+          //  odata.GetDiskussionsforumListData(clientContext);
 
-            //odata.GetPatenerProceduresListData(clientContext);
+            // odata.GetNyhederListData(clientContext);
 
-            //odata.GetPatenerProvisionListData(clientContext);
+            // odata.GetProceduresListData(clientContext);//working fine
 
-            // odata.GetPatenerServicekatalogListData(clientContext);
+            // odata.GetProvisionListData(clientContext);//working fine
 
-            //odata.GetPatenerServicerequestcommunicationsListData(clientContext);
+            // odata.GetServicekatalogListData(clientContext);//working fine
 
-            //odata.GetPatenerServicerequestconversationitemsListData(clientContext);
+           // odata.GetServicerequestcommunicationsListData(clientContext);//working fine
 
-            //odata.GetPatenerServicerequestnotesListData(clientContext);
+           // odata.GetServicerequestconversationitemsListData(clientContext);//working fine
+
+           // odata.GetServicerequestnotesListData(clientContext);//working fine
 
         }
 
@@ -483,6 +483,7 @@ namespace TestDKBSapis
                 Console.WriteLine(oItem["Modified"].ToString());
                 Console.WriteLine(oItem["URL"]);
                 Console.WriteLine(oItem["ContentTypeId"].ToString());
+                Console.WriteLine(oItem["ContentType"]);
 
                 if (oItem.FileSystemObjectType == FileSystemObjectType.Folder)
                 {
@@ -932,7 +933,7 @@ namespace TestDKBSapis
         }
 
         //Diskussionsforum --Done
-        public void GetPatenerDiskussionsforumListData(ClientContext clientContext)
+        public void GetDiskussionsforumListData(ClientContext clientContext)
         {
 
             SP.List oListData = clientContext.Web.Lists.GetByTitle("Diskussionsforum");
@@ -1010,7 +1011,7 @@ namespace TestDKBSapis
         }
 
         //Nyheder --Done
-        public void GetPatenerNyhederListData(ClientContext clientContext)
+        public void GetNyhederListData(ClientContext clientContext)
         {
 
             SP.List oListData = clientContext.Web.Lists.GetByTitle("Nyheder");
@@ -1072,7 +1073,7 @@ namespace TestDKBSapis
         }
 
         //Procedures --Done
-        public void GetPatenerProceduresListData(ClientContext clientContext)
+        public void GetProceduresListData(ClientContext clientContext)
         {
             SP.List oListData = clientContext.Web.Lists.GetByTitle("Procedures");
             ListItemCollectionPosition position = null;
@@ -1261,7 +1262,7 @@ namespace TestDKBSapis
         }
 
         //Provision --Done
-        public void GetPatenerProvisionListData(ClientContext clientContext)
+        public void GetProvisionListData(ClientContext clientContext)
         {
          
             SP.List oListData = clientContext.Web.Lists.GetByTitle("Provision");
@@ -1350,7 +1351,7 @@ namespace TestDKBSapis
         }
 
         //Service katalog --Done
-        public void GetPatenerServicekatalogListData(ClientContext clientContext)
+        public void GetServicekatalogListData(ClientContext clientContext)
         {
 
             SP.List oListData = clientContext.Web.Lists.GetByTitle("Service katalog");
@@ -1397,7 +1398,7 @@ namespace TestDKBSapis
         }
 
         //Service request communications --Done
-        public void GetPatenerServicerequestcommunicationsListData(ClientContext clientContext)
+        public void GetServicerequestcommunicationsListData(ClientContext clientContext)
         {
 
             SP.List oListData = clientContext.Web.Lists.GetByTitle("Service request communications");
@@ -1460,7 +1461,7 @@ namespace TestDKBSapis
         }
 
         //Service request conversation items --Done
-        public void GetPatenerServicerequestconversationitemsListData(ClientContext clientContext)
+        public void GetServicerequestconversationitemsListData(ClientContext clientContext)
         {
 
             SP.List oListData = clientContext.Web.Lists.GetByTitle("Service request conversation items");
@@ -1512,7 +1513,7 @@ namespace TestDKBSapis
         }
        
         //Service request notes	--Done	
-        public void GetPatenerServicerequestnotesListData(ClientContext clientContext)
+        public void GetServicerequestnotesListData(ClientContext clientContext)
         {
 
             SP.List oListData = clientContext.Web.Lists.GetByTitle("Service request notes");
@@ -1587,24 +1588,20 @@ namespace TestDKBSapis
         {
 
             SP.List oListData = clientContext.Web.Lists.GetByTitle("Partnere");
-            ListItemCollectionPosition position = null;
-            var page = 1;
-            do
-            {
-                CamlQuery camlQuery = new CamlQuery();
-                camlQuery.ViewXml = "<View Scope='Recursive'><Query></Query><RowLimit>5000</RowLimit></View>";
-                camlQuery.ListItemCollectionPosition = position;
-                ListItemCollection oListDataItem = oListData.GetItems(camlQuery);
+            CamlQuery camlQuery = new CamlQuery();
+            camlQuery.ViewXml = "<View Scope='RecursiveAll'><Query></Query></View>";
+            ListItemCollection oListDataItem = oListData.GetItems(camlQuery);
 
-                clientContext.Load(oListDataItem);
+            clientContext.Load(oListDataItem);
+            clientContext.ExecuteQuery();
 
-                clientContext.ExecuteQuery();
-                position = oListDataItem.ListItemCollectionPosition;
-                foreach (ListItem oItem in oListDataItem)
+            foreach (ListItem oItem in oListDataItem)
                 {
                     Console.WriteLine("ID: {0} \nTitle: {1}", oItem["ID"], oItem["Title"]);
-                    //Console.WriteLine(((SP.FieldUserValue)(oItem["Author"])).LookupValue);
-                    //Console.WriteLine(((SP.FieldUserValue)(oItem["Editor"])).LookupValue);
+                //clientContext.Load(oItem["Author"]);
+                Console.WriteLine(oItem["Author"]);
+                Console.WriteLine(((SP.FieldUserValue)(oItem["Author"])).LookupValue);
+                    Console.WriteLine(((SP.FieldUserValue)(oItem["Editor"])).LookupValue);
                     Console.WriteLine(oItem["Created"].ToString());
                     Console.WriteLine(oItem["Modified"].ToString());
                   //  Console.WriteLine(oItem["MembershipStartDate"].ToString());
@@ -1653,28 +1650,26 @@ namespace TestDKBSapis
                     //        }
                     //    }
 
-                    //}
-                    //if (oItem["land"] != null)
-                    //{
-                    //    Console.WriteLine(oItem["land"]);
-                    //    var childIdField = oItem["land"] as FieldLookupValue[];
-                    //    if (childIdField != null)
-                    //    {
-                    //        foreach (var lookupValue in childIdField)
-                    //        {
-                    //            var childId_Value = lookupValue.LookupValue;
-                    //            var childId_Id = lookupValue.LookupId;
+                      //}
+                        //if (oItem["land"] != null)
+                        //{
+                        //    Console.WriteLine(oItem["land"]);
+                        //    var childIdField = oItem["land"] as FieldLookupValue[];
+                        //    if (childIdField != null)
+                        //    {
+                        //        foreach (var lookupValue in childIdField)
+                        //        {
+                        //            var childId_Value = lookupValue.LookupValue;
+                        //            var childId_Id = lookupValue.LookupId;
 
-                    //            Console.WriteLine("LookupID: " + childId_Id.ToString());
-                    //            Console.WriteLine("LookupValue: " + childId_Value.ToString());
-                    //        }
-                    //   }
+                        //            Console.WriteLine("LookupID: " + childId_Id.ToString());
+                        //            Console.WriteLine("LookupValue: " + childId_Value.ToString());
+                        //        }
+                        //   }
 
-                  //  }
-                }
-                page++;
-            }
-            while (position != null);
+                       //  }
+                    }
+             
         }
 
 
